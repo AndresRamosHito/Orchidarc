@@ -1,0 +1,1016 @@
+"""
+Orchidarc site generator.
+
+Single-purpose: writes static HTML files with shared <head>, ticker, nav,
+and footer so the chrome stays consistent across pages.
+
+Run: python build.py
+Output: index.html, cypripedium.html, etc., next to this script.
+"""
+from pathlib import Path
+
+OUT = Path(__file__).parent
+SQ = "https://images.squarespace-cdn.com/content/v1/62a46ec904abd9082e732ae7"
+
+# ----------------------- SHARED CHROME -----------------------
+
+def head(title: str, description: str, og_image: str = "") -> str:
+    og = og_image or f"{SQ}/32944817-46ed-41a6-9443-8d1ef5096afe/_MG_3738.JPG"
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{description}">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{description}">
+<meta property="og:image" content="{og}">
+<meta name="theme-color" content="#0f2418">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,0..100;1,9..144,300..700,0..100&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+"""
+
+TICKER = """<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <span>UK Charity no. 1208062</span>
+    <span>Field Season 2026 — Veracruz × Oaxaca</span>
+    <span>IUCN SSC Orchid Specialist Group</span>
+    <span>Reserve: 14 ha cloud forest, Ixhuacán de los Reyes</span>
+    <span>Now in development — Orchids of Mexico (feature documentary)</span>
+    <span>UK Charity no. 1208062</span>
+    <span>Field Season 2026 — Veracruz × Oaxaca</span>
+    <span>IUCN SSC Orchid Specialist Group</span>
+    <span>Reserve: 14 ha cloud forest, Ixhuacán de los Reyes</span>
+    <span>Now in development — Orchids of Mexico (feature documentary)</span>
+  </div>
+</div>
+"""
+
+def nav(active: str = "") -> str:
+    """active = 'films' | 'species' | 'research' | 'about' | 'stories' | 'store' | ''"""
+    items = [
+        ("films",     "films.html",         "Films"),
+        ("species",   "herbarium.html",     "Species"),
+        ("research",  "extinct-strength.html", "Research"),
+        ("about",     "about.html",         "About"),
+        ("stories",   "stories.html",       "Stories"),
+        ("store",     "store.html",         "Store"),
+    ]
+    links = "\n".join(
+        f'      <a href="{href}" class="{ "is-active" if k==active else "" }">{label}</a>'
+        for k, href, label in items
+    )
+    return f"""<header class="nav">
+  <div class="wrap nav__inner">
+    <a href="index.html" class="brand">
+      <span class="brand__mark">O</span>
+      <span>
+        <span class="brand__text">Orchidarc</span>
+        <span class="brand__sub">Est. 2022 · Sheffield, UK</span>
+      </span>
+    </a>
+    <nav class="nav__links" id="navlinks">
+{links}
+    </nav>
+    <button class="nav__toggle" id="navtoggle" aria-label="Menu">Menu</button>
+    <a href="take-action.html" class="nav__cta">Take Action</a>
+  </div>
+</header>
+"""
+
+FOOTER = """<footer class="foot">
+  <div class="wrap">
+    <div class="foot__top">
+      <div class="foot__brand">
+        <h2>Orchidarc.</h2>
+        <p>UK-registered conservation NGO working to protect the wild orchids of Mexico through research, action and cinema.</p>
+      </div>
+      <div class="foot__col">
+        <h5>Work</h5>
+        <ul>
+          <li><a href="index.html#films">Films</a></li>
+          <li><a href="herbarium.html">Herbarium</a></li>
+          <li><a href="cypripedium.html">Cypripedium</a></li>
+          <li><a href="stories.html">Stories</a></li>
+          <li><a href="extinct-strength.html">Extinct strength</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h5>Get involved</h5>
+        <ul>
+          <li><a href="take-action.html">Donate</a></li>
+          <li><a href="mexico-tours.html">Mexico tours</a></li>
+          <li><a href="store.html">Store</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="socials.html">Socials</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:andresr@orchidarc.org">andresr@orchidarc.org</a></li>
+          <li><a href="tel:+447771483822">+44 (0)7771 483822</a></li>
+          <li>Mexico · UK · Brasil</li>
+          <li>Charity no. 1208062</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__bottom">
+      <span>© Orchidarc 2022–2026 — All rights reserved</span>
+      <span>Designed in the cloud forest · Built with care</span>
+    </div>
+  </div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>"""
+
+def page(title: str, desc: str, body: str, active: str = "", og: str = "") -> str:
+    return head(title, desc, og) + TICKER + nav(active) + body + FOOTER
+
+
+# ----------------------- PAGE: HOME -----------------------
+
+HOME_BODY = f"""
+<section class="hero wrap">
+  <div class="hero__meta">
+    <span>I. — Field Notes</span>
+    <span>Veracruz · 19°25′N · 97°06′W</span>
+    <span>Vol. IV / 2026</span>
+  </div>
+
+  <h1 class="hero__title">
+    Saving the <em>wild orchids</em> of <span class="pollen">México</span>.
+  </h1>
+
+  <figure class="hero__frame">
+    <img src="{SQ}/32944817-46ed-41a6-9443-8d1ef5096afe/_MG_3738.JPG" alt="Cloud forest canopy in Veracruz" loading="eager">
+    <figcaption class="hero__caption">PL. 01 — Cloud forest canopy, <b>Cofre de Perote</b>, Veracruz</figcaption>
+  </figure>
+
+  <div class="hero__lede">
+    <p>Orchidarc is a UK-registered conservation NGO working in the cloud forests of Mexico. We protect wild orchid populations through field research, habitat restoration, IUCN Red List assessment — and the documentary films we make to bring those forests to the world.</p>
+    <aside>
+      <dl>
+        <dt>— Founded</dt><dd>2022, Sheffield, UK</dd>
+        <dt>— Charity no.</dt><dd>1208062</dd>
+        <dt>— Reserve</dt><dd>14 ha · Ixhuacán de los Reyes</dd>
+        <dt>— Endangered species protected</dt><dd>3 (Mexican Red List)</dd>
+        <dt>— Native orchids on site</dt><dd>≈ 50 species</dd>
+      </dl>
+    </aside>
+  </div>
+</section>
+
+<section class="section wrap reveal" id="research">
+  <div class="section__head">
+    <span class="section__num">§ 02 — Discovery</span>
+    <div>
+      <h2 class="section__title">A new <em>nothogenus</em><br>from the mountains of Veracruz.</h2>
+      <p class="section__lede">Our first formal taxonomic contribution: a hybrid genus that emerges where the cloud forests of central Mexico meet two ancient lineages.</p>
+    </div>
+  </div>
+
+  <div class="discovery">
+    <div class="discovery__img">
+      <div class="discovery__plate">
+        <span>SPECIMEN — OA · 0001</span>
+        <span>VER / MX</span>
+      </div>
+      <img src="{SQ}/b351d6ee-bb66-4cab-ab29-8af5f3884d91/Dinedema+3+final.jpg" alt="× Dinedema mariae">
+    </div>
+    <div class="discovery__txt">
+      <h3><span class="x">×</span>Dinedema mariae</h3>
+      <p>The parent genera are <em>Nidema</em> (nest) and <em>Dinema</em> (crown). The result is <em>Dinedema</em> — the nest-crown — the first new orchid taxon described and published by Orchidarc, endemic to the Mexican cloud forest belt.</p>
+      <dl class="discovery__meta">
+        <div><dt>Subtribe</dt><dd>Laeliinae</dd></div>
+        <div><dt>Habitat</dt><dd>Cloud forest, Veracruz</dd></div>
+        <div><dt>Status</dt><dd>Newly described, 2025</dd></div>
+        <div><dt>Distribution</dt><dd>Endemic to Mexico</dd></div>
+      </dl>
+      <a class="btn" href="https://www.researchgate.net/publication/393387931_A_new_nothogenus_and_a_new_nothospecies_in_the_subtribe_Laeliinae_Orchidaceae_from_Mexico" target="_blank" rel="noopener">Read the paper</a>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap reveal" id="films">
+  <div class="section__head">
+    <span class="section__num">§ 03 — Cinema</span>
+    <div>
+      <h2 class="section__title">Documentary as <em>conservation</em>.</h2>
+      <p class="section__lede">Orchidarc's films treat orchids as protagonists, not props. Filmed in the cloud forests of Veracruz and Oaxaca, in close partnership with the communities that have lived alongside them for centuries.</p>
+    </div>
+  </div>
+
+  <div class="films">
+
+    <article class="film">
+      <a href="https://www.youtube.com/watch?v=9ozJdv3ggG0" target="_blank" rel="noopener" class="film__poster">
+        <img src="{SQ}/2c4ae757-930d-4c8a-8390-058ed4dd8f90/1.png" alt="Lily of Allsaints">
+        <div class="film__play"><span>▶</span></div>
+      </a>
+      <div class="film__meta"><span>2025 · 35 min · Documentary</span><span>EN / ES</span></div>
+      <h3 class="film__title"><em>Lily of Allsaints</em></h3>
+      <p class="film__desc">The sacred orchids of Mexico — <em>Laelia anceps</em> on the altars of the Day of the Dead, the cloud forests where it still grows wild, and the people who have woven it into a thousand years of ceremony.</p>
+      <div class="film__lang">
+        <a href="https://www.youtube.com/watch?v=9ozJdv3ggG0&t=1108s" target="_blank" rel="noopener">Watch (EN) ↗</a>
+        <a href="https://www.youtube.com/watch?v=-iy_hTD1Fsc&t=1376s" target="_blank" rel="noopener">Ver (ES) ↗</a>
+      </div>
+      <span class="film__award">Best Feature Environmental Documentary, FICAA Mexico City, 2025</span>
+    </article>
+
+    <article class="film">
+      <a href="https://www.youtube.com/watch?v=XlOR4z7b86s" target="_blank" rel="noopener" class="film__poster">
+        <img src="{SQ}/27f7d05c-4973-4cf7-825c-f5c67a074fd6/Spring+Orchids+tn.png" alt="Spring Orchids: Mexico">
+        <div class="film__play"><span>▶</span></div>
+      </a>
+      <div class="film__meta"><span>2025 · 19 min · Short</span><span>EN / ES</span></div>
+      <h3 class="film__title"><em>Spring Orchids: Mexico</em></h3>
+      <p class="film__desc">Spring in Mexico is the warmest, driest season — and it brings forth unimaginable beauty. A montage-style portrait of the orchids that bloom when the forest is at its thirstiest.</p>
+      <div class="film__lang">
+        <a href="https://www.youtube.com/watch?v=XlOR4z7b86s" target="_blank" rel="noopener">Watch ↗</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section class="urgent reveal">
+  <div class="urgent__bg" aria-hidden="true"></div>
+  <div class="urgent__inner">
+    <div class="urgent__txt">
+      <span class="urgent__tag">⚠ Urgent Conservation Action</span>
+      <h2 class="urgent__title">The largest <em>Cypripedium</em> population recorded in Mesoamerica.</h2>
+      <p>Following the discovery of the largest known Cypripedium population in Mesoamerica, we are racing against habitat loss and illegal collection to ensure its survival. Targeted surveys, in-situ protection and species reintroduction are underway across the Cofre de Perote cloud forest belt.</p>
+      <a href="cypripedium.html" class="btn btn--filled" style="border-color:var(--ochre);background:var(--ochre);color:var(--forest)">Learn more</a>
+    </div>
+    <div class="urgent__img">
+      <img src="{SQ}/dc08b386-fdac-4732-975e-bf8facc28075/Cypripedium+rex" alt="Cypripedium">
+    </div>
+  </div>
+</section>
+
+<section class="section wrap reveal" id="species">
+  <div class="section__head">
+    <span class="section__num">§ 04 — Field Notebook</span>
+    <div>
+      <h2 class="section__title">Species <em>under our care</em>.</h2>
+      <p class="section__lede">From the showy and fragrant to the cryptic and miniature — selected entries from the orchids we monitor, propagate and assess for the IUCN Red List.</p>
+    </div>
+  </div>
+
+  <div class="specimens">
+
+    <article class="specimen">
+      <div class="specimen__plate"><span>OA — Plate III</span><span>Coll. 2022</span></div>
+      <div class="specimen__img"><img src="{SQ}/51577823-8a96-4df3-a8f1-33b062be46f5/20220820_110655.jpg" alt="Acineta barkeri"></div>
+      <h3 class="specimen__name">Acineta barkeri</h3>
+      <p class="specimen__author">(Bateman) Lindl.</p>
+      <span class="specimen__status">Endangered · Endemic to Veracruz</span>
+      <p class="specimen__desc">Flashy, large, and powerfully scented — pendant inflorescences cascade from cloud-forest branches. One of the flagship species of our long-term monitoring programme.</p>
+      <a href="acineta-barkeri.html" class="specimen__link">Read profile</a>
+    </article>
+
+    <article class="specimen">
+      <div class="specimen__plate"><span>OA — Plate IV</span><span>Coll. 2021</span></div>
+      <div class="specimen__img"><img src="{SQ}/b61eb90a-1f9f-4d62-b570-4fd3b258b4b2/IMG_20211012_123115_940.jpg" alt="Prosthechea vitellina"></div>
+      <h3 class="specimen__name">Prosthechea vitellina</h3>
+      <p class="specimen__author">(Lindl.) W.E.Higgins</p>
+      <span class="specimen__status">Endangered · Abundant on reserve</span>
+      <p class="specimen__desc">A Central American icon. The deep reddish-orange flowers have captivated growers for a century. Despite formal endangered status, this species thrives within our reserve — a quiet conservation success.</p>
+      <a href="prosthechea-vitellina.html" class="specimen__link">Read profile</a>
+    </article>
+
+  </div>
+</section>
+
+<section class="section wrap reveal">
+  <div class="section__head">
+    <span class="section__num">§ 05 — Essay</span>
+    <div>
+      <h2 class="section__title">Extinct <em>strength</em>.</h2>
+      <p class="section__lede">A short essay on what the bee orchid can tell us about the bumblebee that disappeared.</p>
+    </div>
+  </div>
+
+  <div class="essay">
+    <div class="essay__media">
+      <img class="a" src="{SQ}/6143ad45-1407-4b01-835d-cacd7492e892/Ophrys+apifera.png" alt="Ophrys apifera">
+      <img class="b" src="{SQ}/9beef872-784c-4aef-b7c0-428bbb66be54/Diapositiva2.PNG" alt="Bee orchid pollination diagram">
+    </div>
+    <div class="essay__txt">
+      <h3>What the bee orchid <em>remembers</em>.</h3>
+      <p>Bee orchids (<em>Ophrys apifera</em>) once attracted an extinct species of bumblebee. Today they self-pollinate — but the architecture of the flower still encodes the body of its lost partner.</p>
+      <blockquote class="essay__pull">"Every orchid is a fossil of its pollinator. The flower outlives the bee."</blockquote>
+      <p>By measuring the pseudo-bee on the labellum, we can reconstruct the size, the grip, and the strength of an insect that no longer exists. This is the strange archaeology of co-evolution.</p>
+      <a href="extinct-strength.html" class="btn">Read the essay</a>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap reveal" id="about">
+  <div class="section__head">
+    <span class="section__num">§ 06 — About</span>
+    <div>
+      <h2 class="section__title">A small organisation, working <em>across three disciplines</em>.</h2>
+    </div>
+  </div>
+
+  <div class="about">
+    <div class="about__col">
+      <p class="about__lede">Orchidarc sits at the intersection of <em>field biology, conservation practice and documentary cinema</em> — three disciplines that, in our work, refuse to be separated.</p>
+      <div class="about__stats">
+        <div><div class="stat__num">≈1300</div><div class="stat__label">Orchid species in Mexico</div></div>
+        <div><div class="stat__num">≈600</div><div class="stat__label">Endemic to Mexico</div></div>
+        <div><div class="stat__num">14 ha</div><div class="stat__label">Cloud forest under management</div></div>
+        <div><div class="stat__num">2022</div><div class="stat__label">Year founded · Sheffield, UK</div></div>
+      </div>
+    </div>
+    <div class="about__col">
+      <p>Founded in 2022 and registered with the UK Charity Commission, Orchidarc operates primarily in Veracruz and Oaxaca, with research collaborations in the United Kingdom, Japan, Ecuador and Costa Rica.</p>
+      <p>We are a small team — and that's intentional. Every project we take on is led directly by the people doing the field work, the science, and the storytelling.</p>
+      <div class="about__pillars">
+        <div class="pillar"><span class="pillar__num">01 — Research</span><div><h4>Field & laboratory</h4><p>Taxonomy, IUCN Red List assessment, and biomaterials research on the orchid pollinarium adhesive (viscidium).</p></div></div>
+        <div class="pillar"><span class="pillar__num">02 — Conservation</span><div><h4>In-situ & ex-situ</h4><p>Reserve management, propagation and reintroduction of threatened species into protected cloud forest sites.</p></div></div>
+        <div class="pillar"><span class="pillar__num">03 — Cinema</span><div><h4>Documentary as a tool</h4><p>Long-form films that bring the cloud forest to international audiences — and the funding it needs back home.</p></div></div>
+      </div>
+      <a href="about.html" class="btn" style="margin-top:32px">More about us</a>
+    </div>
+  </div>
+</section>
+
+<section class="action reveal" id="action">
+  <div class="action__inner">
+    <div><h2 class="action__title">Ready to take the <em>next step</em>?</h2></div>
+    <div class="action__txt">
+      <p>Three concrete ways to support the wild orchids of Mexico — choose the one that fits.</p>
+      <div class="action__cards">
+        <a class="action__card" href="take-action.html"><div><h4>Become a contributor</h4><p>Recurring or one-time gift</p></div><span>↗</span></a>
+        <a class="action__card" href="mexico-tours.html"><div><h4>Join a Mexico orchid expedition</h4><p>Field trips, July–August</p></div><span>↗</span></a>
+        <a class="action__card" href="store.html"><div><h4>The Laelia collection</h4><p>Garments · Sales fund the reserve</p></div><span>↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="subscribe wrap reveal">
+  <div class="subscribe__inner">
+    <div>
+      <h3>Field <em>dispatches</em>.</h3>
+      <p>Occasional letters from the cloud forest — new species accounts, film releases, expedition reports. No spam, ever.</p>
+    </div>
+    <div>
+      <form id="subform" novalidate>
+        <input type="email" id="subemail" placeholder="your@email.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+      <div class="subscribe__msg" id="submsg">&nbsp;</div>
+    </div>
+  </div>
+</section>
+"""
+
+
+# ----------------------- PAGE HEADER (reusable) -----------------------
+
+def pageheader(eyebrow: str, title_html: str, lede: str = "") -> str:
+    lede_html = f'<p class="ph__lede">{lede}</p>' if lede else ""
+    return f"""<section class="ph wrap">
+  <span class="ph__eyebrow">{eyebrow}</span>
+  <h1 class="ph__title">{title_html}</h1>
+  {lede_html}
+</section>
+"""
+
+
+# ----------------------- PAGE: CYPRIPEDIUM -----------------------
+
+CYPRIPEDIUM = pageheader(
+    "Urgent Campaign · Mesoamerica",
+    "The largest <em>Cypripedium</em><br>population in Mesoamerica.",
+    "A discovery that changed everything we thought we knew about the genus in Central America — and the race against time to keep it safe."
+) + f"""
+<section class="wrap reveal">
+  <figure class="hero__frame" style="margin:32px 0 64px">
+    <img src="{SQ}/2675011b-0620-4bdb-a8e1-37f2bf667903/dji_fly_20230729_130218_0163_1690694512505_photo.jpg" alt="Cloud forest aerial — Cypripedium habitat">
+    <figcaption class="hero__caption">PL. 02 — Drone survey, <b>Ciudad Mendoza</b>, Veracruz</figcaption>
+  </figure>
+</section>
+
+<section class="section wrap reveal">
+  <div class="prose">
+    <p class="prose__lede">In 2023, working in the eastern slopes of the Pico de Orizaba massif, our team confirmed what local botanists had long suspected: a population of <em>Cypripedium</em> larger than any previously documented in Mesoamerica.</p>
+
+    <h3>What we found</h3>
+    <p>Cypripediums — slipper orchids — are the iconic terrestrial orchids of the temperate northern hemisphere. In Mexico they reach the southern edge of their range, where the genus barely persists in scattered cloud forest pockets. The population we documented is unlike anything previously published for the region.</p>
+
+    <p>The site sits within a fragile transition zone between cloud forest and temperate pine-oak. The orchids grow on calcareous slopes that drain quickly after the summer rains, alongside terrestrial bromeliads and a striking community of mycoheterotrophic plants. The full extent of the population is still being mapped.</p>
+
+    <h3>The threats</h3>
+    <p>Three pressures dominate. <em>Habitat conversion</em> — even small clearings for pasture and milpa permanently disrupt the orchid's mycorrhizal partners. <em>Illegal collection</em> — Cypripediums are highly desirable to private collectors and command high prices on the black market. <em>Climate</em> — the cloud forest belt that supports the genus is migrating uphill faster than the orchids can.</p>
+
+    <h3>Our response</h3>
+    <ul class="checklist">
+      <li><b>Population mapping.</b> A complete census of mature individuals using ground surveys and drone-based imagery.</li>
+      <li><b>IUCN Red List assessment.</b> The first formal regional assessment of the species, led by trained Orchidarc assessors within the IUCN SSC Orchid Specialist Group.</li>
+      <li><b>In-situ protection.</b> Working with state authorities to extend protected status across the core habitat.</li>
+      <li><b>Ex-situ insurance.</b> Limited symbiotic propagation as a safeguard, kept offsite under controlled conditions.</li>
+      <li><b>Community engagement.</b> Workshops with adjacent communities — the long-term future of the population depends on the people who live around it.</li>
+    </ul>
+
+    <h3>How to support this work</h3>
+    <p>Cypripedium conservation is slow, expensive, and unglamorous. It requires multi-year monitoring, careful permits, and patient relationships with local communities and authorities. Every contribution helps keep this work going.</p>
+
+    <p style="margin-top:32px"><a class="btn btn--filled" href="take-action.html">Support the campaign</a></p>
+  </div>
+</section>
+"""
+
+
+# ----------------------- PAGE: ACINETA BARKERI -----------------------
+
+ACINETA = pageheader(
+    "Species Profile · Plate III",
+    "<em>Acineta barkeri</em>",
+    "Bateman's Acineta — endangered, fragrant, endemic to the cloud forests of Veracruz."
+) + f"""
+<section class="wrap reveal">
+  <div class="profile">
+    <div class="profile__img">
+      <img src="{SQ}/51577823-8a96-4df3-a8f1-33b062be46f5/20220820_110655.jpg" alt="Acineta barkeri">
+    </div>
+    <div class="profile__data">
+      <dl class="datasheet">
+        <dt>Binomial</dt><dd><em>Acineta barkeri</em></dd>
+        <dt>Author</dt><dd>(Bateman) Lindl.</dd>
+        <dt>Family</dt><dd>Orchidaceae</dd>
+        <dt>Subfamily</dt><dd>Epidendroideae</dd>
+        <dt>Habit</dt><dd>Pendant epiphyte</dd>
+        <dt>Habitat</dt><dd>Cloud forest, 1,200–1,800 m</dd>
+        <dt>Distribution</dt><dd>Endemic — Veracruz, MX</dd>
+        <dt>Mexican Red List</dt><dd>Endangered</dd>
+        <dt>IUCN status</dt><dd>Not yet assessed</dd>
+        <dt>Flowering</dt><dd>May–July</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap reveal">
+  <div class="prose">
+    <p class="prose__lede">Few orchids announce themselves with the same drama as <em>Acineta barkeri</em>. The pendant inflorescences emerge downward from the pseudobulbs, dripping waxy yellow flowers that fill the surrounding air with a heavy, almost gardenia-like fragrance.</p>
+
+    <h3>Morphology</h3>
+    <p>Robust, ovoid pseudobulbs each bear two to three pleated leaves up to 60 cm long. The pendant inflorescence may carry six to twelve flowers, each 7–8 cm across, in shades of butter yellow with maroon spotting on the lip. The fragrance, strongest in early morning, is what draws its specialised euglossine bee pollinators.</p>
+
+    <h3>Ecology</h3>
+    <p>The species depends on intact mid-elevation cloud forest with a stable humidity regime. Mature individuals are typically found on the trunks of large oaks and <em>Liquidambar</em>, where the pendant flower spike has the vertical clearance to develop properly — making the species particularly vulnerable to selective logging that removes the largest trees.</p>
+
+    <h3>Threats</h3>
+    <p>Habitat fragmentation has reduced suitable cloud forest in Veracruz to scattered pockets. Where forest persists, illegal collection for the ornamental trade continues to reduce reproductively active populations. The species is included in the Mexican Red List as endangered (NOM-059-SEMARNAT).</p>
+
+    <h3>Our work</h3>
+    <p>Orchidarc maintains a long-term monitoring plot for <em>A. barkeri</em> within our reserve. We're documenting flowering phenology, mapping the wild population, and working toward the first formal IUCN assessment for the species. We presented preliminary work on its conservation at the Encuentro Mexicano de Orquideología in Oaxaca.</p>
+  </div>
+</section>
+"""
+
+
+# ----------------------- PAGE: PROSTHECHEA VITELLINA -----------------------
+
+PROSTHECHEA = pageheader(
+    "Species Profile · Plate IV",
+    "<em>Prosthechea vitellina</em>",
+    "A Central American icon. Endangered in the wild — but quietly thriving on our reserve."
+) + f"""
+<section class="wrap reveal">
+  <div class="profile">
+    <div class="profile__img">
+      <img src="{SQ}/b61eb90a-1f9f-4d62-b570-4fd3b258b4b2/IMG_20211012_123115_940.jpg" alt="Prosthechea vitellina">
+    </div>
+    <div class="profile__data">
+      <dl class="datasheet">
+        <dt>Binomial</dt><dd><em>Prosthechea vitellina</em></dd>
+        <dt>Author</dt><dd>(Lindl.) W.E.Higgins</dd>
+        <dt>Synonym</dt><dd><em>Encyclia vitellina</em></dd>
+        <dt>Family</dt><dd>Orchidaceae</dd>
+        <dt>Habit</dt><dd>Cool-growing epiphyte</dd>
+        <dt>Habitat</dt><dd>Cloud forest, 1,500–2,400 m</dd>
+        <dt>Distribution</dt><dd>Mexico → Nicaragua</dd>
+        <dt>Mexican Red List</dt><dd>Endangered</dd>
+        <dt>IUCN status</dt><dd>Not yet assessed</dd>
+        <dt>Flowering</dt><dd>Sept–Dec</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap reveal">
+  <div class="prose">
+    <p class="prose__lede">Few orchids in cultivation are as instantly recognisable. The vermilion-orange flowers of <em>Prosthechea vitellina</em> have been celebrated since the species was first introduced to European collections in the 19th century — yet in the wild it remains in retreat across most of its range.</p>
+
+    <h3>The reserve population</h3>
+    <p>Within our reserve, <em>P. vitellina</em> is one of the most abundant epiphytic orchids — a striking contrast with its broader status as an endangered species. The population is centred on the high-canopy oaks of our riparian primary forest fragment, where humidity remains high through the dry season.</p>
+
+    <h3>Why the reserve matters</h3>
+    <p>The local abundance illustrates a broader principle: even small, well-managed forest fragments can sustain dense populations of species that are otherwise in decline. Protecting these fragments — and preventing the loss of the large host trees the orchids depend on — is among the highest-leverage actions we take.</p>
+
+    <h3>Our work</h3>
+    <p>We track flowering individuals annually, document seed-set in a subset of the population, and use the reserve population as a source of provenance-matched seed for symbiotic propagation. We are working toward a formal IUCN regional assessment for the species.</p>
+  </div>
+</section>
+"""
+
+
+# ----------------------- PAGE: EXTINCT STRENGTH -----------------------
+
+EXTINCT = pageheader(
+    "Essay · 2025",
+    "Extinct <em>strength</em>.",
+    "What the bee orchid can tell us about the bumblebee that disappeared."
+) + f"""
+<section class="wrap reveal">
+  <figure class="essay__hero">
+    <img src="{SQ}/6143ad45-1407-4b01-835d-cacd7492e892/Ophrys+apifera.png" alt="Ophrys apifera">
+    <figcaption>Fig. 1 — <em>Ophrys apifera</em>, the bee orchid. The labellum mimics the body of a female bee.</figcaption>
+  </figure>
+</section>
+
+<section class="section wrap reveal">
+  <article class="prose prose--essay">
+    <p class="prose__lede">Bee orchids (<em>Ophrys apifera</em>) are among the most studied flowers in Europe. They are also among the loneliest. The species today reproduces almost entirely through self-pollination — a strange evolutionary endpoint for a flower whose entire architecture is built around a partner that no longer exists.</p>
+
+    <p>Across the genus <em>Ophrys</em>, flowers mimic the body of a female bee with extraordinary precision: the velvety texture, the iridescent blue speculum, even the volatile cocktail that imitates the bee's sex pheromones. Male bees are deceived into attempting to mate with the flower, and in doing so they pick up the orchid's pollinia. It is one of the most remarkable cases of sexual mimicry in the plant kingdom.</p>
+
+    <h3>The bee that isn't there</h3>
+    <p>For <em>Ophrys apifera</em>, the bee that was being mimicked has not been reliably observed for centuries. The flower's morphology suggests a long-tongued bumblebee of a particular size and grip — a form that does not match any extant European species. We are looking, in effect, at the silhouette of an extinction.</p>
+
+    <blockquote class="essay__pull">"Every orchid is a fossil of its pollinator. The flower outlives the bee."</blockquote>
+
+    <h3>Reading the flower</h3>
+    <p>The genius of the system is that the flower itself preserves data. By measuring the labellum's pseudo-abdomen, the angle and depth of the column, and the precise placement of the viscidium that deposits the pollinia, we can reconstruct constraints on the missing bee: roughly how large it was, how strong its grip needed to be, the geometry of its approach.</p>
+
+    <figure class="essay__inline">
+      <img src="{SQ}/9beef872-784c-4aef-b7c0-428bbb66be54/Diapositiva2.PNG" alt="Bee orchid pollination diagram">
+      <figcaption>Fig. 2 — Pollination geometry of <em>Ophrys apifera</em>, with reconstructed bee dimensions.</figcaption>
+    </figure>
+
+    <p>This is not unlike forensic anatomy. The flower is a cast of a body that no longer walks the earth. And the orchid's switch to self-pollination — the so-called "selfing transition" — is best understood not as an evolutionary triumph but as a quiet act of survival in the absence of a partner.</p>
+
+    <h3>Why this matters now</h3>
+    <p>The bee orchid story is not unique. As pollinator populations decline globally, an unknown number of plant species are entering the same trajectory: maintained for now by the architecture of a relationship that no longer functions, with selfing or vegetative propagation as a temporary stay against extinction. Some of these flowers will outlive their pollinators by centuries. Others won't.</p>
+
+    <p>Studying the orchids that have already crossed this line gives us a vocabulary for what's coming.</p>
+
+    <hr class="hairline">
+    <p class="byline"><em>Andrés Ramos · Orchidarc · 2025</em></p>
+  </article>
+</section>
+"""
+
+
+# ----------------------- PAGE: HERBARIUM -----------------------
+
+HERBARIUM_ENTRIES = [
+    ("Acineta barkeri",       "(Bateman) Lindl.",     "Endangered",  "Endemic · Veracruz",       f"{SQ}/51577823-8a96-4df3-a8f1-33b062be46f5/20220820_110655.jpg",        "acineta-barkeri.html"),
+    ("Prosthechea vitellina", "(Lindl.) W.E.Higgins", "Endangered",  "MX → Nicaragua",            f"{SQ}/b61eb90a-1f9f-4d62-b570-4fd3b258b4b2/IMG_20211012_123115_940.jpg", "prosthechea-vitellina.html"),
+    ("Cypripedium spp.",      "—",                     "In assessment", "Cofre de Perote",          f"{SQ}/dc08b386-fdac-4732-975e-bf8facc28075/Cypripedium+rex",            "cypripedium.html"),
+    ("× Dinedema mariae",     "Orchidarc, 2025",      "Newly described","Endemic · Veracruz",       f"{SQ}/b351d6ee-bb66-4cab-ab29-8af5f3884d91/Dinedema+3+final.jpg",        "#"),
+    ("Mormodes maculata",     "(Klotzsch) L.O.Williams","Under monitoring","Mexico (cloud forest)",  f"{SQ}/bb4dcbf9-a46c-48b7-8444-0b5e1109a5a3/Mormodes+maculata.jpg",       "#"),
+    ("Laelia anceps",         "Lindl.",                "Cultural icon","Mexico (widely distributed)", f"{SQ}/8588920c-a6c7-46b2-bdab-72d27653aa23/Albida3.1+-+Copy.jpg",         "#"),
+]
+
+def herbarium_card(name, author, status, range_, img, href):
+    return f"""<article class="hb">
+  <a href="{href}">
+    <div class="hb__img"><img src="{img}" alt="{name}" loading="lazy"></div>
+    <div class="hb__meta"><span>{status}</span><span>{range_}</span></div>
+    <h3 class="hb__name"><em>{name}</em></h3>
+    <p class="hb__author">{author}</p>
+  </a>
+</article>"""
+
+HERBARIUM = pageheader(
+    "Digital Herbarium · OA",
+    "The <em>herbarium</em>.",
+    "An ongoing index of the orchid species we encounter, document and monitor in the field. Each plate links to the underlying notes, photographs and conservation status."
+) + f"""
+<section class="section wrap reveal">
+  <div class="hb-grid">
+    {''.join(herbarium_card(*e) for e in HERBARIUM_ENTRIES)}
+  </div>
+  <p class="muted" style="margin-top:48px;text-align:center">More entries are added as field work continues. Want to contribute a record? <a href="mailto:andresr@orchidarc.org">Get in touch</a>.</p>
+</section>
+"""
+
+
+# ----------------------- PAGE: GALLERY -----------------------
+
+GALLERY_IMAGES = [
+    (f"{SQ}/8588920c-a6c7-46b2-bdab-72d27653aa23/Albida3.1+-+Copy.jpg",          "Laelia anceps · in situ",                       "tall"),
+    (f"{SQ}/bb4dcbf9-a46c-48b7-8444-0b5e1109a5a3/Mormodes+maculata.jpg",          "Mormodes maculata",                              "wide"),
+    (f"{SQ}/2675011b-0620-4bdb-a8e1-37f2bf667903/dji_fly_20230729_130218_0163_1690694512505_photo.jpg", "Aerial · Cofre de Perote", "wide"),
+    (f"{SQ}/dc08b386-fdac-4732-975e-bf8facc28075/Cypripedium+rex",                "Cypripedium population",                         "tall"),
+    (f"{SQ}/9dce98c5-ffb7-459c-bd06-bb1a91903181/Pabistellia+biriricensis+web2+3.jpg","Cloud forest miniature",                     ""),
+    (f"{SQ}/51577823-8a96-4df3-a8f1-33b062be46f5/20220820_110655.jpg",            "Acineta barkeri",                                ""),
+    (f"{SQ}/b61eb90a-1f9f-4d62-b570-4fd3b258b4b2/IMG_20211012_123115_940.jpg",    "Prosthechea vitellina",                          "tall"),
+    (f"{SQ}/b351d6ee-bb66-4cab-ab29-8af5f3884d91/Dinedema+3+final.jpg",           "× Dinedema mariae",                              ""),
+    (f"{SQ}/1a51bb88-7cf0-4dc1-ad0a-58816e5b1a0b/orquideas+UMA.jpg",              "Orchids of the reserve",                         "wide"),
+    (f"{SQ}/0876bba9-5404-4b85-926b-56a982fc1172/IMG_20211012_123116_067.jpg",    "Reserve, Ixhuacán de los Reyes",                ""),
+    (f"{SQ}/32944817-46ed-41a6-9443-8d1ef5096afe/_MG_3738.JPG",                   "Cloud forest canopy",                           "tall"),
+    (f"{SQ}/b01524fb-fc45-4799-a798-44f88f012157/20221104_174704.jpg",            "Encuentro Mexicano de Orquideología, 2022",      ""),
+]
+
+def gallery_tile(src, cap, mod):
+    return f"""<figure class="g {('g--'+mod) if mod else ''}">
+  <img src="{src}" alt="{cap}" loading="lazy">
+  <figcaption>{cap}</figcaption>
+</figure>"""
+
+GALLERY = pageheader(
+    "Gallery",
+    "Pictures from <em>the field</em>.",
+    "Selected photographs from our reserve, expeditions, and research sites across Mexico."
+) + f"""
+<section class="section wrap reveal">
+  <div class="gallery">
+    {''.join(gallery_tile(*g) for g in GALLERY_IMAGES)}
+  </div>
+</section>
+"""
+
+
+# ----------------------- PAGE: STORIES -----------------------
+
+STORIES_LIST = [
+    ("Extinct strength",
+     "Essay · 2025",
+     "What the bee orchid can tell us about the bumblebee that disappeared.",
+     f"{SQ}/6143ad45-1407-4b01-835d-cacd7492e892/Ophrys+apifera.png",
+     "extinct-strength.html"),
+    ("A new × Dinedema from the cloud forest",
+     "Field report · 2025",
+     "Notes on the discovery, description and publication of × Dinedema mariae — Orchidarc's first contribution to the taxonomic record of Mexican orchids.",
+     f"{SQ}/b351d6ee-bb66-4cab-ab29-8af5f3884d91/Dinedema+3+final.jpg",
+     "https://www.researchgate.net/publication/393387931_A_new_nothogenus_and_a_new_nothospecies_in_the_subtribe_Laeliinae_Orchidaceae_from_Mexico"),
+    ("Counting Cypripedium",
+     "Conservation · 2024",
+     "How we mapped the largest known Cypripedium population in Mesoamerica — and why the work is just beginning.",
+     f"{SQ}/2675011b-0620-4bdb-a8e1-37f2bf667903/dji_fly_20230729_130218_0163_1690694512505_photo.jpg",
+     "cypripedium.html"),
+    ("On the altars of Allsaints",
+     "Film notes · 2025",
+     "The making of Lily of Allsaints — a year in the cloud forest, the cemeteries, and the family histories of Veracruz.",
+     f"{SQ}/2c4ae757-930d-4c8a-8390-058ed4dd8f90/1.png",
+     "https://www.youtube.com/watch?v=9ozJdv3ggG0"),
+]
+
+def story_card(title, eyebrow, excerpt, img, href):
+    return f"""<a class="story" href="{href}">
+  <div class="story__img"><img src="{img}" alt="{title}" loading="lazy"></div>
+  <div class="story__meta">{eyebrow}</div>
+  <h3 class="story__title">{title}</h3>
+  <p class="story__excerpt">{excerpt}</p>
+  <span class="story__read">Read →</span>
+</a>"""
+
+STORIES = pageheader(
+    "Stories & Field Notes",
+    "From the <em>cloud forest</em>.",
+    "Essays, field reports, and notes from our research and films. Updated occasionally."
+) + f"""
+<section class="section wrap reveal">
+  <div class="stories">
+    {''.join(story_card(*s) for s in STORIES_LIST)}
+  </div>
+</section>
+"""
+
+
+# ----------------------- PAGE: MEXICO TOURS -----------------------
+
+MEXICO_TOURS = pageheader(
+    "Mexico Orchid Expeditions",
+    "Twelve days in the <em>cloud forest</em>.",
+    "Small-group field expeditions led by working orchid biologists. Veracruz and Oaxaca, in the heart of the Mexican orchid season."
+) + f"""
+<section class="wrap reveal">
+  <figure class="hero__frame" style="margin:32px 0 64px">
+    <img src="{SQ}/8588920c-a6c7-46b2-bdab-72d27653aa23/Albida3.1+-+Copy.jpg" alt="Wild orchid in Veracruz cloud forest">
+    <figcaption class="hero__caption">PL. 03 — <b>Laelia</b> in habitat, Veracruz</figcaption>
+  </figure>
+</section>
+
+<section class="section wrap reveal">
+  <div class="tours-grid">
+    <div>
+      <h3 class="block__title">What this is</h3>
+      <p>A working scientific expedition for orchid enthusiasts and naturalists. Not a luxury tour. We move between cloud forest, oak-pine and tropical sites in the company of biologists who know each location intimately. You see orchids in habitat — many of them species you cannot see anywhere else.</p>
+      <p>Group size is capped at six participants. The pace is moderate, the days are long, and the rewards are substantial.</p>
+    </div>
+    <div>
+      <h3 class="block__title">What's included</h3>
+      <ul class="checklist">
+        <li>11 nights' accommodation (mix of small hotels and our reserve guesthouse)</li>
+        <li>All ground transport in private Sprinter van</li>
+        <li>All meals in the field; mixed kitchen / restaurant structure</li>
+        <li>Scientific guiding throughout</li>
+        <li>Site permits and access fees</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap reveal">
+  <h3 class="section__title" style="margin-bottom:48px">Indicative itinerary <em>— July 2026</em></h3>
+  <ol class="itinerary">
+    <li><span class="day">Day 1</span><div><h4>Arrival · Puebla pickup</h4><p>Group meets in Puebla. Transfer to Xalapa, Veracruz.</p></div></li>
+    <li><span class="day">Day 2–4</span><div><h4>Veracruz · Orchidarc Reserve</h4><p>Three days at our reserve in Ixhuacán de los Reyes. Field work, monitoring, and photography in primary cloud forest.</p></div></li>
+    <li><span class="day">Day 5</span><div><h4>Tepetlán forest</h4><p>Day excursion to a remnant cloud forest site rich in <em>Encyclia</em> and <em>Prosthechea</em>.</p></div></li>
+    <li><span class="day">Day 6–7</span><div><h4>Cofre de Perote</h4><p>High-elevation slipper orchid sites. <em>Cypripedium</em> in habitat.</p></div></li>
+    <li><span class="day">Day 8</span><div><h4>Ciudad Mendoza</h4><p>Translocation between regions. Evening arrival in the Mixteca.</p></div></li>
+    <li><span class="day">Day 9–10</span><div><h4>Oaxaca · Monte Verde &amp; Tejupan</h4><p>Two days in the high Mixteca, with terrestrial orchids in pine-oak forest.</p></div></li>
+    <li><span class="day">Day 11</span><div><h4>Return to Puebla</h4><p>Long transfer day. Evening in Puebla.</p></div></li>
+    <li><span class="day">Day 12</span><div><h4>Departure</h4><p>Morning departures from Puebla.</p></div></li>
+  </ol>
+</section>
+
+<section class="section wrap reveal">
+  <div class="tours-grid">
+    <div>
+      <h3 class="block__title">Pricing</h3>
+      <p>Indicative range, USD <strong>$3,200–$3,500</strong> per participant — based on shared accommodation, twin occupancy. Single supplement available. Discounted rates for participants who can use accommodation only (no kitchen / restaurant package).</p>
+      <p class="muted">A portion of every booking directly funds Orchidarc's conservation work in Mexico.</p>
+    </div>
+    <div>
+      <h3 class="block__title">Enquire</h3>
+      <p>Tours are arranged individually. To enquire about availability, group composition or a custom itinerary, write to <a href="mailto:andresr@orchidarc.org">andresr@orchidarc.org</a>.</p>
+      <p style="margin-top:24px"><a class="btn btn--filled" href="mailto:andresr@orchidarc.org?subject=Mexico%20Orchid%20Expedition%20enquiry">Send an enquiry</a></p>
+    </div>
+  </div>
+</section>
+"""
+
+
+# ----------------------- PAGE: ABOUT -----------------------
+
+ABOUT = pageheader(
+    "About",
+    "Orchidarc is a small <em>conservation NGO</em> with three disciplines.",
+    "Field biology, conservation practice, documentary cinema."
+) + f"""
+<section class="section wrap reveal">
+  <div class="about">
+    <div class="about__col">
+      <p class="about__lede">We were registered with the UK Charity Commission in 2022 (no. <strong>1208062</strong>), with operations primarily in Mexico and field collaborations in the United Kingdom, Japan, Ecuador and Costa Rica.</p>
+      <div class="about__stats">
+        <div><div class="stat__num">≈1300</div><div class="stat__label">Orchid species in Mexico</div></div>
+        <div><div class="stat__num">≈600</div><div class="stat__label">Endemic to Mexico</div></div>
+        <div><div class="stat__num">14 ha</div><div class="stat__label">Cloud forest under management</div></div>
+        <div><div class="stat__num">2022</div><div class="stat__label">Year founded</div></div>
+      </div>
+    </div>
+    <div class="about__col">
+      <p>Orchidarc emerged from a single observation: the most threatened orchid species in Mexico are not the rare ones. They are the everyday ones — the species that grow on the trees in your grandmother's churchyard, the orchids that adorn altars during the Day of the Dead, the species that everybody knows and nobody studies.</p>
+      <p>Our work is to bring scientific rigour to these familiar species, to document and assess them properly, and to use the resulting science to support conservation that is led by the communities living alongside them.</p>
+      <p>And we make documentary films — because the cloud forest is one of the most cinematic ecosystems on earth, and most of the world has never seen it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap reveal">
+  <h3 class="section__title" style="margin-bottom:48px">Three <em>pillars</em>.</h3>
+  <div class="about__pillars about__pillars--full">
+    <div class="pillar">
+      <span class="pillar__num">01 — Research</span>
+      <div>
+        <h4>Field & laboratory</h4>
+        <p>Floristic survey work, taxonomic contributions, IUCN Red List assessment, and biomaterials research on the orchid pollinarium adhesive (the viscidium) — currently the subject of doctoral research at the University of Tokyo.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <span class="pillar__num">02 — Conservation</span>
+      <div>
+        <h4>In-situ & ex-situ</h4>
+        <p>Reserve management at our cloud forest site in Veracruz, symbiotic propagation of threatened species, and reintroduction work with regional protected areas including La Martinica.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <span class="pillar__num">03 — Cinema</span>
+      <div>
+        <h4>Documentary as a tool</h4>
+        <p>Long-form documentary filmmaking that treats orchids as protagonists rather than props — and brings the science, the people, and the landscapes back to international audiences and funders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap reveal">
+  <h3 class="section__title" style="margin-bottom:48px">Affiliations &amp; recognition</h3>
+  <div class="affiliations">
+    <div><h5>IUCN SSC</h5><p>Member, Orchid Specialist Group. Trained regional and global Red List assessor.</p></div>
+    <div><h5>University of Tokyo</h5><p>Doctoral research on orchid bioadhesives.</p></div>
+    <div><h5>University of Sheffield</h5><p>Founding institutional link; ongoing biomaterials collaboration.</p></div>
+    <div><h5>Universidad Veracruzana</h5><p>Mexican research partner.</p></div>
+    <div><h5>FICAA Mexico City</h5><p>Best Feature Environmental Documentary, 2025 — <em>Lily of Allsaints</em>.</p></div>
+    <div><h5>Conferences</h5><p>Encuentro Mexicano de Orquideología; World Orchid Conference; Andean Orchid Conference; Adhesion Society.</p></div>
+  </div>
+</section>
+"""
+
+
+# ----------------------- PAGE: TAKE ACTION -----------------------
+
+TAKE_ACTION = pageheader(
+    "Take Action",
+    "Three ways to <em>support</em> the work.",
+    "Every contribution funds field work, monitoring, and the documentary projects that bring the cloud forest to a global audience."
+) + f"""
+<section class="section wrap reveal">
+  <div class="actions-grid">
+    <div class="bigcard">
+      <span class="bigcard__num">01</span>
+      <h3 class="bigcard__title">Donate</h3>
+      <p>One-time or recurring contributions of any size. Your gift directly supports field expeditions, monitoring infrastructure, IUCN assessment work and our documentary slate.</p>
+      <p class="muted">Donation portal coming soon — to give now, please write to <a href="mailto:andresr@orchidarc.org">andresr@orchidarc.org</a> for bank transfer details (UK or Mexico).</p>
+    </div>
+    <div class="bigcard">
+      <span class="bigcard__num">02</span>
+      <h3 class="bigcard__title">Join an expedition</h3>
+      <p>Spend twelve days with us in the cloud forests of Veracruz and Oaxaca. Small group, expert guidance, real field work. Each booking funds further conservation.</p>
+      <p><a class="btn" href="mexico-tours.html">See itineraries</a></p>
+    </div>
+    <div class="bigcard">
+      <span class="bigcard__num">03</span>
+      <h3 class="bigcard__title">Wear the work</h3>
+      <p>The Laelia collection — limited-run garments celebrating Mexico's most iconic orchid genus. All proceeds support the reserve.</p>
+      <p><a class="btn" href="store.html">Visit the store</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap reveal">
+  <h3 class="section__title" style="margin-bottom:32px">Other ways to <em>help</em>.</h3>
+  <div class="prose">
+    <ul class="checklist">
+      <li><b>Spread the films.</b> Share our documentaries — every view brings the cloud forest to a new audience.</li>
+      <li><b>Volunteer.</b> Field-season volunteers with biology, photography, video or carpentry skills are welcome. Write to us.</li>
+      <li><b>Partner.</b> If you represent an institution, foundation or NGO with overlapping mission, we'd like to hear from you.</li>
+    </ul>
+    <p style="margin-top:32px"><a class="btn btn--filled" href="mailto:andresr@orchidarc.org">Get in touch</a></p>
+  </div>
+</section>
+"""
+
+
+# ----------------------- PAGE: STORE -----------------------
+
+STORE = pageheader(
+    "Store",
+    "The <em>Laelia</em> collection.",
+    "Genetic research has shown that the genus Laelia is largely endemic to Mexico. We celebrate one of the most iconic orchid genera in the country with a small collection of garments — all proceeds fund the reserve."
+) + f"""
+<section class="section wrap reveal">
+  <figure class="hero__frame" style="aspect-ratio:16/9;margin-bottom:48px">
+    <img src="{SQ}/7cc08598-4f5a-463d-8492-995347526ad8/Orchidshirts13.jpg" alt="The Laelia collection" style="object-position:center 30%">
+    <figcaption class="hero__caption">The <b>Laelia</b> collection — limited run, 2025</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p class="prose__lede">A small, considered collection of garments printed with original botanical illustrations of Mexico's wild Laelia species. Limited print runs. Every sale funds field conservation in Veracruz.</p>
+    <p class="muted">Online ordering is being moved to a new platform. To order in the meantime, or to enquire about wholesale for orchid societies and gardens, please write to <a href="mailto:andresr@orchidarc.org">andresr@orchidarc.org</a>.</p>
+    <p style="margin-top:32px"><a class="btn btn--filled" href="mailto:andresr@orchidarc.org?subject=Laelia%20Collection%20order">Enquire about an order</a></p>
+  </div>
+</section>
+"""
+
+
+# ----------------------- PAGE: SOCIALS -----------------------
+
+SOCIALS = pageheader(
+    "Socials",
+    "Where to find us <em>elsewhere</em>.",
+    "All Orchidarc channels in one place."
+) + """
+<section class="section wrap reveal">
+  <div class="socials-grid">
+    <a class="soc" href="https://www.youtube.com/@orchidarc" target="_blank" rel="noopener">
+      <span class="soc__plat">YouTube</span>
+      <h3 class="soc__handle">@orchidarc</h3>
+      <p>Documentaries, field reports, behind-the-scenes from the cloud forest.</p>
+      <span class="soc__go">Visit channel →</span>
+    </a>
+    <a class="soc" href="https://www.instagram.com/orchidarc" target="_blank" rel="noopener">
+      <span class="soc__plat">Instagram</span>
+      <h3 class="soc__handle">@orchidarc</h3>
+      <p>Photographs from the field, day-by-day during the season.</p>
+      <span class="soc__go">Visit profile →</span>
+    </a>
+    <a class="soc" href="https://www.researchgate.net/profile/Andres-Ramos-Orchidarc" target="_blank" rel="noopener">
+      <span class="soc__plat">ResearchGate</span>
+      <h3 class="soc__handle">Andrés Ramos</h3>
+      <p>Scientific publications, including the description of × Dinedema mariae.</p>
+      <span class="soc__go">View publications →</span>
+    </a>
+    <a class="soc" href="mailto:andresr@orchidarc.org">
+      <span class="soc__plat">Email</span>
+      <h3 class="soc__handle">andresr@orchidarc.org</h3>
+      <p>Direct contact for partnerships, press, and tour enquiries.</p>
+      <span class="soc__go">Write to us →</span>
+    </a>
+  </div>
+  <p class="muted" style="margin-top:48px;text-align:center">Some links above are placeholders — please update with your actual handles in <code>build.py</code>.</p>
+</section>
+"""
+
+
+# ----------------------- PAGE: FILMS (index) -----------------------
+
+FILMS = pageheader(
+    "Films",
+    "Our <em>documentary</em> work.",
+    "Released films and current development. Streaming is via YouTube; festival screening enquiries via email."
+) + f"""
+<section class="section wrap reveal">
+  <div class="films">
+
+    <article class="film">
+      <a href="https://www.youtube.com/watch?v=9ozJdv3ggG0" target="_blank" rel="noopener" class="film__poster">
+        <img src="{SQ}/2c4ae757-930d-4c8a-8390-058ed4dd8f90/1.png" alt="Lily of Allsaints">
+        <div class="film__play"><span>▶</span></div>
+      </a>
+      <div class="film__meta"><span>2025 · 35 min · Documentary</span><span>EN / ES</span></div>
+      <h3 class="film__title"><em>Lily of Allsaints</em></h3>
+      <p class="film__desc">The sacred orchids of Mexico — <em>Laelia anceps</em> on the altars of the Day of the Dead, the cloud forests where it still grows wild, and the people who have woven it into a thousand years of ceremony.</p>
+      <div class="film__lang">
+        <a href="https://www.youtube.com/watch?v=9ozJdv3ggG0&t=1108s" target="_blank" rel="noopener">Watch (EN) ↗</a>
+        <a href="https://www.youtube.com/watch?v=-iy_hTD1Fsc&t=1376s" target="_blank" rel="noopener">Ver (ES) ↗</a>
+      </div>
+      <span class="film__award">Best Feature Environmental Documentary, FICAA Mexico City, 2025</span>
+    </article>
+
+    <article class="film">
+      <a href="https://www.youtube.com/watch?v=XlOR4z7b86s" target="_blank" rel="noopener" class="film__poster">
+        <img src="{SQ}/27f7d05c-4973-4cf7-825c-f5c67a074fd6/Spring+Orchids+tn.png" alt="Spring Orchids: Mexico">
+        <div class="film__play"><span>▶</span></div>
+      </a>
+      <div class="film__meta"><span>2025 · 19 min · Short</span><span>EN / ES</span></div>
+      <h3 class="film__title"><em>Spring Orchids: Mexico</em></h3>
+      <p class="film__desc">Spring in Mexico is the warmest, driest season — and it brings forth unimaginable beauty. A montage-style portrait of the orchids that bloom when the forest is at its thirstiest.</p>
+      <div class="film__lang"><a href="https://www.youtube.com/watch?v=XlOR4z7b86s" target="_blank" rel="noopener">Watch ↗</a></div>
+    </article>
+
+  </div>
+
+  <div class="indev">
+    <span class="indev__tag">In Development</span>
+    <h3 class="indev__title"><em>Orchids of Mexico</em></h3>
+    <p>A feature-length documentary in development with Orchidarc. Three interwoven scientific threads — the bioadhesive that holds pollination together, the mycorrhizal partnerships that build orchid life, and the floral deception that makes pollinators visit at all — set against the full geography of Mexican orchid habitat in Veracruz and Oaxaca.</p>
+    <p class="muted">Enquiries from broadcasters, distributors and co-production partners welcome — <a href="mailto:andresr@orchidarc.org">andresr@orchidarc.org</a>.</p>
+  </div>
+</section>
+"""
+
+
+# ----------------------- PAGE: 404 -----------------------
+
+NOT_FOUND = """<section class="wrap" style="padding:160px 0 200px;text-align:center">
+  <span class="ph__eyebrow">Error 404</span>
+  <h1 class="ph__title" style="margin-top:24px"><em>This species</em> is not in the herbarium.</h1>
+  <p style="margin:32px auto 40px;max-width:48ch;color:rgba(27,26,23,.7)">The page you were looking for may have moved, or it may never have existed. Try the herbarium index — or head back to the front page.</p>
+  <p><a class="btn btn--filled" href="index.html">Back to the home page</a></p>
+</section>
+"""
+
+
+# ----------------------- WRITE FILES -----------------------
+
+PAGES = [
+    ("index.html",                "Orchidarc — Saving the wild orchids of Mexico", "UK-registered conservation NGO (charity no. 1208062) protecting the wild orchids of Mexico through research, restoration and documentary film.", HOME_BODY,        ""),
+    ("films.html",                "Films — Orchidarc",                              "Documentary work from Orchidarc — Lily of Allsaints, Spring Orchids: Mexico, and Orchids of Mexico (in development).",                              FILMS,            "films"),
+    ("cypripedium.html",          "Cypripedium — Urgent Conservation · Orchidarc",  "The largest known Cypripedium population in Mesoamerica. Our urgent conservation campaign in the Cofre de Perote cloud forest belt.",                CYPRIPEDIUM,      "species"),
+    ("acineta-barkeri.html",      "Acineta barkeri — Orchidarc",                    "Species profile: Acineta barkeri (Bateman) Lindl. — endangered, fragrant, endemic to the cloud forests of Veracruz, Mexico.",                       ACINETA,          "species"),
+    ("prosthechea-vitellina.html","Prosthechea vitellina — Orchidarc",              "Species profile: Prosthechea vitellina (Lindl.) W.E.Higgins — endangered Central American orchid thriving on Orchidarc's reserve.",                PROSTHECHEA,      "species"),
+    ("extinct-strength.html",     "Extinct strength — Orchidarc",                   "Essay: what the bee orchid can tell us about the bumblebee that disappeared.",                                                                       EXTINCT,          "research"),
+    ("herbarium.html",            "Digital Herbarium — Orchidarc",                  "An ongoing index of orchid species documented and monitored by Orchidarc in the field.",                                                              HERBARIUM,        "species"),
+    ("gallery.html",              "Gallery — Orchidarc",                            "Photographs from Orchidarc's reserve, expeditions and research sites across Mexico.",                                                                 GALLERY,          ""),
+    ("stories.html",              "Stories & Field Notes — Orchidarc",              "Essays and field reports from Orchidarc's research and films.",                                                                                       STORIES,          "stories"),
+    ("mexico-tours.html",         "Mexico Orchid Expeditions — Orchidarc",          "Small-group field expeditions in the cloud forests of Veracruz and Oaxaca, led by working orchid biologists.",                                       MEXICO_TOURS,     ""),
+    ("about.html",                "About — Orchidarc",                              "About Orchidarc — a UK-registered conservation NGO working at the intersection of field biology, conservation practice and documentary cinema.",      ABOUT,            "about"),
+    ("take-action.html",          "Take Action — Orchidarc",                        "Donate, join an expedition, or visit the store — three ways to support Orchidarc's conservation work in Mexico.",                                       TAKE_ACTION,      ""),
+    ("store.html",                "Store — Orchidarc",                              "The Laelia collection — limited-run garments printed with original botanical illustrations. All proceeds support our reserve.",                       STORE,            "store"),
+    ("socials.html",              "Socials — Orchidarc",                            "All Orchidarc channels in one place — YouTube, Instagram, ResearchGate and email.",                                                                  SOCIALS,          ""),
+    ("404.html",                  "Not found — Orchidarc",                          "The page you're looking for could not be found.",                                                                                                     NOT_FOUND,        ""),
+]
+
+for filename, title, desc, body, active in PAGES:
+    html = page(title, desc, body, active=active)
+    (OUT / filename).write_text(html, encoding="utf-8")
+    print(f"  → {filename}  ({len(html):,} bytes)")
+
+print(f"\nWrote {len(PAGES)} pages to {OUT}")
