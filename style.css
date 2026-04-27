@@ -1,116 +1,296 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Store — Orchidarc</title>
-<meta name="description" content="The Laelia collection — limited-run garments printed with original botanical illustrations. All proceeds support our reserve.">
-<meta property="og:title" content="Store — Orchidarc">
-<meta property="og:description" content="The Laelia collection — limited-run garments printed with original botanical illustrations. All proceeds support our reserve.">
-<meta property="og:image" content="https://images.squarespace-cdn.com/content/v1/62a46ec904abd9082e732ae7/32944817-46ed-41a6-9443-8d1ef5096afe/_MG_3738.JPG">
-<meta name="theme-color" content="#0f2418">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,0..100;1,9..144,300..700,0..100&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="ticker" aria-hidden="true">
-  <div class="ticker__track">
-    <span>UK Charity no. 1208062</span>
-    <span>Field Season 2026 — Veracruz × Oaxaca</span>
-    <span>IUCN SSC Orchid Specialist Group</span>
-    <span>Reserve: 14 ha cloud forest, Ixhuacán de los Reyes</span>
-    <span>Now in development — Orchids of Mexico (feature documentary)</span>
-    <span>UK Charity no. 1208062</span>
-    <span>Field Season 2026 — Veracruz × Oaxaca</span>
-    <span>IUCN SSC Orchid Specialist Group</span>
-    <span>Reserve: 14 ha cloud forest, Ixhuacán de los Reyes</span>
-    <span>Now in development — Orchids of Mexico (feature documentary)</span>
-  </div>
-</div>
-<header class="nav">
-  <div class="wrap nav__inner">
-    <a href="index.html" class="brand">
-      <span class="brand__mark">O</span>
-      <span>
-        <span class="brand__text">Orchidarc</span>
-        <span class="brand__sub">Est. 2022 · Sheffield, UK</span>
-      </span>
-    </a>
-    <nav class="nav__links" id="navlinks">
-      <a href="films.html" class="">Films</a>
-      <a href="herbarium.html" class="">Species</a>
-      <a href="extinct-strength.html" class="">Research</a>
-      <a href="about.html" class="">About</a>
-      <a href="stories.html" class="">Stories</a>
-      <a href="store.html" class="is-active">Store</a>
-    </nav>
-    <button class="nav__toggle" id="navtoggle" aria-label="Menu">Menu</button>
-    <a href="take-action.html" class="nav__cta">Take Action</a>
-  </div>
-</header>
-<section class="ph wrap">
-  <span class="ph__eyebrow">Store</span>
-  <h1 class="ph__title">The <em>Laelia</em> collection.</h1>
-  <p class="ph__lede">Genetic research has shown that the genus Laelia is largely endemic to Mexico. We celebrate one of the most iconic orchid genera in the country with a small collection of garments — all proceeds fund the reserve.</p>
-</section>
+/* ============================================================
+   ORCHIDARC — site stylesheet
+   Single source of truth for all pages.
+   ============================================================ */
 
-<section class="section wrap reveal">
-  <figure class="hero__frame" style="aspect-ratio:16/9;margin-bottom:48px">
-    <img src="https://images.squarespace-cdn.com/content/v1/62a46ec904abd9082e732ae7/7cc08598-4f5a-463d-8492-995347526ad8/Orchidshirts13.jpg" alt="The Laelia collection" style="object-position:center 30%">
-    <figcaption class="hero__caption">The <b>Laelia</b> collection — limited run, 2025</figcaption>
-  </figure>
+:root{
+  --paper:#efe9dd;
+  --paper-2:#e6dfd0;
+  --ink:#1b1a17;
+  --forest:#0f2418;
+  --forest-2:#1d3a28;
+  --moss:#5c6b4a;
+  --ochre:#b8773b;
+  --ochre-2:#d4934a;
+  --rule:rgba(27,26,23,.18);
+  --rule-soft:rgba(27,26,23,.08);
+}
 
-  <div class="prose">
-    <p class="prose__lede">A small, considered collection of garments printed with original botanical illustrations of Mexico's wild Laelia species. Limited print runs. Every sale funds field conservation in Veracruz.</p>
-    <p class="muted">Online ordering is being moved to a new platform. To order in the meantime, or to enquire about wholesale for orchid societies and gardens, please write to <a href="mailto:andresr@orchidarc.org">andresr@orchidarc.org</a>.</p>
-    <p style="margin-top:32px"><a class="btn btn--filled" href="mailto:andresr@orchidarc.org?subject=Laelia%20Collection%20order">Enquire about an order</a></p>
-  </div>
-</section>
-<footer class="foot">
-  <div class="wrap">
-    <div class="foot__top">
-      <div class="foot__brand">
-        <h2>Orchidarc.</h2>
-        <p>UK-registered conservation NGO working to protect the wild orchids of Mexico through research, action and cinema.</p>
-      </div>
-      <div class="foot__col">
-        <h5>Work</h5>
-        <ul>
-          <li><a href="index.html#films">Films</a></li>
-          <li><a href="herbarium.html">Herbarium</a></li>
-          <li><a href="cypripedium.html">Cypripedium</a></li>
-          <li><a href="stories.html">Stories</a></li>
-          <li><a href="extinct-strength.html">Extinct strength</a></li>
-        </ul>
-      </div>
-      <div class="foot__col">
-        <h5>Get involved</h5>
-        <ul>
-          <li><a href="take-action.html">Donate</a></li>
-          <li><a href="mexico-tours.html">Mexico tours</a></li>
-          <li><a href="store.html">Store</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="socials.html">Socials</a></li>
-        </ul>
-      </div>
-      <div class="foot__col">
-        <h5>Contact</h5>
-        <ul>
-          <li><a href="mailto:andresr@orchidarc.org">andresr@orchidarc.org</a></li>
-          <li><a href="tel:+447771483822">+44 (0)7771 483822</a></li>
-          <li>Mexico · UK · Brasil</li>
-          <li>Charity no. 1208062</li>
-        </ul>
-      </div>
-    </div>
-    <div class="foot__bottom">
-      <span>© Orchidarc 2022–2026 — All rights reserved</span>
-      <span>Designed in the cloud forest · Built with care</span>
-    </div>
-  </div>
-</footer>
-<script src="app.js"></script>
-</body>
-</html>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Newsreader",Georgia,serif;
+  font-weight:400;
+  font-size:18px;
+  line-height:1.55;
+  font-feature-settings:"ss01","onum";
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1000;
+  opacity:.35;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.1  0 0 0 0 0.08  0 0 0 .08 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+.display{font-family:"Fraunces",Georgia,serif;font-variation-settings:"opsz" 144,"SOFT" 50;line-height:.95;letter-spacing:-.02em}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+em,i,.italic{font-style:italic}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.muted{color:rgba(27,26,23,.6);font-size:.95rem}
+hr.hairline{border:0;height:1px;background:var(--rule);margin:48px 0}
+
+.wrap{max-width:1440px;margin:0 auto;padding:0 32px}
+@media (max-width:720px){.wrap{padding:0 20px}}
+
+.ticker{background:var(--forest);color:var(--paper);border-bottom:1px solid rgba(255,255,255,.08);overflow:hidden;position:relative}
+.ticker__track{display:flex;gap:64px;white-space:nowrap;padding:8px 0;animation:tick 60s linear infinite;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase}
+.ticker__track span{display:inline-flex;align-items:center;gap:14px;opacity:.85}
+.ticker__track span::before{content:"◆";color:var(--ochre);font-size:.6rem}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.nav{position:sticky;top:0;z-index:50;background:rgba(239,233,221,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule-soft)}
+.nav__inner{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;padding:18px 0}
+.brand{display:flex;align-items:center;gap:12px}
+.brand__mark{width:40px;height:40px;display:block;object-fit:contain;border-radius:50%;transform:translateY(-1px)}
+.brand__text{font-family:"Fraunces",serif;font-weight:500;font-variation-settings:"opsz" 144,"SOFT" 100;font-size:1.35rem;letter-spacing:-.01em}
+.brand__sub{font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;opacity:.55;display:block;margin-top:-2px}
+.nav__links{display:flex;justify-content:center;gap:28px;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.nav__links a{position:relative;padding:6px 0;transition:opacity .2s}
+.nav__links a:hover{opacity:.55}
+.nav__links a.is-active{color:var(--ochre)}
+.nav__links a.is-active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:var(--ochre)}
+.nav__cta{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;background:var(--forest);color:var(--paper);padding:10px 18px;border-radius:999px;transition:background .2s}
+.nav__cta:hover{background:var(--ochre);color:var(--ink)}
+.nav__toggle{display:none;background:none;border:1px solid var(--rule);padding:8px 12px;border-radius:6px;font-family:inherit;cursor:pointer}
+@media (max-width:980px){.nav__links{display:none}.nav__inner{grid-template-columns:auto auto auto}.nav__toggle{display:inline-flex;align-items:center;gap:8px;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}.nav__cta{display:none}.nav__links.open{display:flex;flex-direction:column;grid-column:1/-1;align-items:flex-start;gap:18px;padding:24px 0 12px;border-top:1px solid var(--rule-soft);margin-top:8px}}
+
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;padding:14px 22px;border:1px solid var(--ink);border-radius:999px;transition:all .25s ease;cursor:pointer}
+.btn:hover{background:var(--ink);color:var(--paper);transform:translateY(-2px)}
+.btn--filled{background:var(--forest);color:var(--paper);border-color:var(--forest)}
+.btn--filled:hover{background:var(--ochre);border-color:var(--ochre);color:var(--ink)}
+.btn::after{content:"→";font-family:"Newsreader",serif;font-size:1rem}
+
+.hero{padding:64px 0 32px;position:relative}
+.hero__meta{display:flex;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--moss);padding-bottom:24px;border-bottom:1px solid var(--rule-soft)}
+.hero__title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 60;font-weight:340;font-size:clamp(3.2rem,9vw,9rem);line-height:.92;letter-spacing:-.035em;padding:48px 0 56px;max-width:14ch}
+.hero__title em{font-style:italic;font-variation-settings:"opsz" 144,"SOFT" 100;color:var(--forest);font-weight:400}
+.hero__title .pollen{color:var(--ochre);font-style:italic}
+.hero__frame{position:relative;aspect-ratio:2.35/1;overflow:hidden;border-radius:2px;background:#000;box-shadow:0 30px 60px -30px rgba(15,36,24,.35)}
+.hero__frame img{width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:saturate(.92) contrast(1.04);transform:scale(1.02);transition:transform 8s ease}
+.hero__frame:hover img{transform:scale(1.06)}
+.hero__caption{position:absolute;left:24px;bottom:20px;color:var(--paper);font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(15,36,24,.6);backdrop-filter:blur(8px);padding:8px 14px;border-radius:2px}
+.hero__caption b{color:var(--ochre-2);font-weight:500;font-style:italic;text-transform:none;letter-spacing:0;font-family:"Fraunces",serif}
+.hero__lede{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px;padding-top:32px;border-top:1px solid var(--rule-soft)}
+.hero__lede p{font-family:"Newsreader",serif;font-size:1.35rem;line-height:1.45;font-weight:380}
+.hero__lede aside{font-family:"JetBrains Mono",monospace;font-size:.72rem;line-height:1.7;letter-spacing:.04em;color:var(--moss);text-transform:uppercase}
+.hero__lede aside dt{color:var(--ink);opacity:.55;margin-top:14px}
+.hero__lede aside dd{margin-bottom:4px}
+@media (max-width:760px){.hero__lede{grid-template-columns:1fr;gap:24px}.hero__title{padding:32px 0 36px}}
+
+.ph{padding:96px 0 32px}
+.ph__eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--moss);display:block;margin-bottom:24px}
+.ph__title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 60;font-weight:340;font-size:clamp(2.8rem,7vw,6.5rem);line-height:.95;letter-spacing:-.03em;max-width:18ch}
+.ph__title em{font-style:italic;color:var(--forest);font-weight:400}
+.ph__lede{margin-top:32px;font-family:"Newsreader",serif;font-size:1.3rem;line-height:1.45;max-width:60ch;color:rgba(27,26,23,.78)}
+
+.section{padding:120px 0 80px;border-top:1px solid var(--rule)}
+.section__head{display:grid;grid-template-columns:120px 1fr;gap:24px;margin-bottom:64px}
+.section__num{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);padding-top:10px}
+.section__title{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 60;font-weight:340;font-size:clamp(2.4rem,5.5vw,5.5rem);line-height:.95;letter-spacing:-.03em;max-width:14ch}
+.section__title em{font-style:italic;color:var(--forest);font-weight:400}
+.section__lede{margin-top:24px;font-size:1.25rem;max-width:64ch;color:rgba(27,26,23,.72)}
+@media (max-width:760px){.section{padding:72px 0}.section__head{grid-template-columns:1fr;gap:12px;margin-bottom:40px}}
+
+.reveal{opacity:1;transform:none;transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+
+.prose{max-width:820px;margin:0 auto;font-size:1.15rem;line-height:1.65}
+.prose p{margin-bottom:24px}
+.prose__lede{font-size:1.45rem;line-height:1.45;color:rgba(27,26,23,.82)}
+.prose h3{font-family:"Fraunces",serif;font-size:2rem;line-height:1.1;margin:48px 0 16px;font-weight:420;color:var(--forest)}
+.checklist{list-style:none;margin:24px 0}
+.checklist li{border-top:1px solid var(--rule-soft);padding:18px 0}
+.checklist li::before{content:"— ";color:var(--ochre)}
+
+.films{display:grid;grid-template-columns:repeat(2,1fr);gap:32px}
+.film{border-top:1px solid var(--rule);padding-top:24px}
+.film__poster{display:block;position:relative;aspect-ratio:16/9;overflow:hidden;background:#000;margin-bottom:18px}
+.film__poster img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+.film__poster:hover img{transform:scale(1.05)}
+.film__play{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:2rem;background:rgba(0,0,0,.12)}
+.film__play span{width:72px;height:72px;border:1px solid rgba(255,255,255,.6);border-radius:50%;display:grid;place-items:center;background:rgba(15,36,24,.25);backdrop-filter:blur(8px)}
+.film__meta{display:flex;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--moss);margin-bottom:12px}
+.film__title{font-family:"Fraunces",serif;font-size:2.2rem;font-weight:380;line-height:1;margin-bottom:14px}
+.film__desc{color:rgba(27,26,23,.72);margin-bottom:18px}
+.film__lang{display:flex;gap:18px;font-family:"JetBrains Mono",monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em}
+.film__award{display:inline-block;margin-top:18px;color:var(--ochre);font-style:italic}
+@media (max-width:820px){.films{grid-template-columns:1fr}}
+
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:260px;gap:16px}
+.g{position:relative;overflow:hidden;background:#000;border-radius:2px}
+.g img{width:100%;height:100%;object-fit:cover;transition:transform 1s ease;filter:saturate(.92) contrast(1.03)}
+.g:hover img{transform:scale(1.06)}
+.g figcaption{position:absolute;left:12px;bottom:10px;color:var(--paper);font-family:"JetBrains Mono",monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;background:rgba(15,36,24,.55);padding:6px 9px;border-radius:2px;backdrop-filter:blur(5px)}
+.g--wide{grid-column:span 2}
+.g--tall{grid-row:span 2}
+@media (max-width:920px){.gallery{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.gallery{grid-template-columns:1fr;grid-auto-rows:240px}.g--wide,.g--tall{grid-column:auto;grid-row:auto}}
+
+.hb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.hb{background:rgba(255,255,255,.18);border:1px solid var(--rule-soft);border-radius:2px;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease;background-color:rgba(239,233,221,.55)}
+.hb:hover{transform:translateY(-4px);box-shadow:0 24px 45px -32px rgba(15,36,24,.35)}
+.hb__img{aspect-ratio:4/3;background:rgba(15,36,24,.08);overflow:hidden}
+.hb__img img{width:100%;height:100%;object-fit:cover;filter:saturate(.94) contrast(1.03);transition:transform .8s ease}
+.hb:hover .hb__img img{transform:scale(1.05)}
+.hb__meta{display:flex;justify-content:space-between;gap:12px;padding:16px 18px 0;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--moss)}
+.hb__name{font-family:"Fraunces",serif;font-size:1.45rem;line-height:1.05;font-weight:420;padding:12px 18px 2px;color:var(--forest)}
+.hb__author{padding:0 18px 20px;color:rgba(27,26,23,.6);font-size:.95rem}
+@media (max-width:1100px){.hb-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:760px){.hb-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.hb-grid{grid-template-columns:1fr}}
+
+.specimens{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.specimen{background:rgba(255,255,255,.18);border:1px solid var(--rule-soft);padding:18px;display:flex;flex-direction:column;min-height:100%}
+.specimen__plate{display:flex;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--moss);margin-bottom:12px}
+.specimen__img{aspect-ratio:4/5;background:#000;overflow:hidden;margin-bottom:18px}
+.specimen__img img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+.specimen:hover .specimen__img img{transform:scale(1.05)}
+.specimen__name{font-family:"Fraunces",serif;font-size:1.75rem;font-weight:420;line-height:1;color:var(--forest);font-style:italic}
+.specimen__author{font-size:.95rem;color:rgba(27,26,23,.55);margin:6px 0 10px}
+.specimen__status{font-family:"JetBrains Mono",monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ochre);margin-bottom:14px}
+.specimen__desc{font-size:1rem;color:rgba(27,26,23,.72);margin-bottom:18px}
+.specimen__link{margin-top:auto;font-family:"JetBrains Mono",monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--rule-soft);padding-top:14px;color:var(--forest)}
+@media (max-width:1100px){.specimens{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.specimens{grid-template-columns:1fr}}
+
+.profile{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:start}
+.profile__img{overflow:hidden;background:#000}
+.profile__img img{width:100%;height:100%;object-fit:cover}
+.datasheet{display:grid;grid-template-columns:160px 1fr;border-top:1px solid var(--rule);font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.04em}
+.datasheet dt,.datasheet dd{padding:14px 0;border-bottom:1px solid var(--rule-soft)}
+.datasheet dt{text-transform:uppercase;color:var(--moss)}
+.datasheet dd{font-family:"Newsreader",serif;font-size:1.05rem;letter-spacing:0;color:var(--ink)}
+@media (max-width:820px){.profile{grid-template-columns:1fr}.datasheet{grid-template-columns:1fr}.datasheet dt{padding-bottom:0;border-bottom:0}}
+
+.foot{background:var(--forest);color:var(--paper);margin-top:96px;padding:72px 0 28px}
+.foot__top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid rgba(255,255,255,.12)}
+.foot__brand h2{font-family:"Fraunces",serif;font-size:3rem;font-weight:360;line-height:1;color:var(--ochre-2);margin-bottom:18px}
+.foot__brand p{max-width:34ch;color:rgba(239,233,221,.72)}
+.foot__social{display:flex;gap:14px;margin-top:24px;flex-wrap:wrap}
+.foot__social a{width:auto;min-width:40px;height:40px;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;border-radius:50%;font-size:.65rem;padding:0 10px;color:var(--paper)}
+.foot__col h5{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre-2);margin-bottom:18px}
+.foot__col ul{list-style:none}
+.foot__col li{margin-bottom:10px;color:rgba(239,233,221,.72)}
+.foot__col a:hover{color:var(--ochre-2)}
+.foot__bottom{display:flex;justify-content:space-between;gap:20px;padding-top:24px;color:rgba(239,233,221,.45);font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase}
+@media (max-width:920px){.foot__top{grid-template-columns:1fr 1fr}.foot__bottom{flex-direction:column}}
+@media (max-width:560px){.foot__top{grid-template-columns:1fr}}
+
+.discovery{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.discovery__img{position:relative;background:#000;overflow:hidden}
+.discovery__img img{width:100%;height:100%;object-fit:cover}
+.discovery__plate{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;color:var(--paper);font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;z-index:1}
+.discovery__txt h3{font-family:"Fraunces",serif;font-size:3.4rem;font-weight:360;line-height:1;color:var(--forest);margin-bottom:22px;font-style:italic}
+.discovery__txt .x{color:var(--ochre);font-style:normal;margin-right:4px}
+.discovery__txt p{font-size:1.2rem;color:rgba(27,26,23,.75);margin-bottom:24px}
+.discovery__meta{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0;font-family:"JetBrains Mono",monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em}
+.discovery__meta div{border-top:1px solid var(--rule-soft);padding-top:12px}
+.discovery__meta dt{color:var(--moss)}
+.discovery__meta dd{font-family:"Newsreader",serif;text-transform:none;letter-spacing:0;font-size:1rem;color:var(--ink)}
+@media (max-width:820px){.discovery{grid-template-columns:1fr}}
+
+.urgent{background:var(--forest);color:var(--paper);padding:96px 0;position:relative;overflow:hidden;margin:80px 0}
+.urgent__inner{max-width:1440px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;position:relative;z-index:1}
+.urgent__tag{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre-2);display:block;margin-bottom:18px}
+.urgent__title{font-family:"Fraunces",serif;font-size:clamp(2.4rem,5vw,5rem);line-height:.95;font-weight:340;letter-spacing:-.03em;margin-bottom:24px}
+.urgent__title em{font-style:italic;color:var(--ochre-2)}
+.urgent__txt p{font-size:1.25rem;color:rgba(239,233,221,.75);margin-bottom:28px}
+.urgent__img{aspect-ratio:4/3;overflow:hidden;background:#000;box-shadow:0 40px 80px -50px rgba(0,0,0,.8)}
+.urgent__img img{width:100%;height:100%;object-fit:cover}
+@media (max-width:820px){.urgent__inner{grid-template-columns:1fr}}
+
+.essay{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.essay__media{aspect-ratio:4/3;overflow:hidden;background:#000}
+.essay__media img{width:100%;height:100%;object-fit:cover}
+.essay__txt h3{font-family:"Fraunces",serif;font-size:3rem;font-weight:360;line-height:1;color:var(--forest);margin-bottom:20px}
+.essay__txt p{font-size:1.15rem;color:rgba(27,26,23,.75);margin-bottom:20px}
+.essay__hero{max-width:1000px;margin:0 auto;background:#000;position:relative}
+.essay__hero img{width:100%;height:auto}
+.essay__hero figcaption,.essay__inline figcaption{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(27,26,23,.55);padding:10px 0;background:var(--paper)}
+.prose--essay{max-width:860px}
+.essay__pull{font-family:"Fraunces",serif;font-size:2rem;line-height:1.15;font-style:italic;color:var(--forest);border-left:3px solid var(--ochre);padding-left:24px;margin:42px 0}
+.essay__inline{margin:42px 0}
+.essay__inline img{width:100%}
+.byline{font-family:"JetBrains Mono",monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--moss)}
+@media (max-width:820px){.essay{grid-template-columns:1fr}}
+
+.about{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.about__lede{font-size:1.45rem;line-height:1.4;color:rgba(27,26,23,.82)}
+.about__stats{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:32px}
+.stat__num{font-family:"Fraunces",serif;font-size:3rem;line-height:1;color:var(--forest)}
+.stat__label{font-family:"JetBrains Mono",monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--moss);margin-top:6px}
+.about__pillars{margin-top:28px}
+.pillar{display:grid;grid-template-columns:100px 1fr;gap:18px;border-top:1px solid var(--rule-soft);padding:18px 0}
+.pillar__num{font-family:"JetBrains Mono",monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ochre)}
+.pillar h4{font-family:"Fraunces",serif;font-size:1.45rem;font-weight:420;color:var(--forest);margin-bottom:6px}
+.pillar p{color:rgba(27,26,23,.72)}
+@media (max-width:820px){.about{grid-template-columns:1fr}.about__stats{grid-template-columns:1fr 1fr}}
+
+.action{background:var(--paper-2);padding:96px 0;margin-top:80px}
+.action__inner{max-width:1440px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.action__title{font-family:"Fraunces",serif;font-size:clamp(2.3rem,5vw,5rem);font-weight:340;line-height:.95;letter-spacing:-.03em}
+.action__title em{font-style:italic;color:var(--forest)}
+.action__txt p{font-size:1.2rem;color:rgba(27,26,23,.74);margin-bottom:24px}
+.action__cards{display:grid;gap:14px}
+.action__card{display:flex;justify-content:space-between;gap:20px;border:1px solid var(--rule);padding:22px;background:rgba(255,255,255,.18);transition:all .2s ease}
+.action__card:hover{transform:translateX(4px);background:rgba(255,255,255,.35)}
+.action__card h4{font-family:"Fraunces",serif;font-size:1.45rem;font-weight:420;color:var(--forest)}
+.action__card p{font-size:.95rem;margin:4px 0 0;color:rgba(27,26,23,.62)}
+@media (max-width:820px){.action__inner{grid-template-columns:1fr}}
+
+.follow{padding:96px 0 32px}
+.follow__inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.follow__txt h3,.subscribe h3{font-family:"Fraunces",serif;font-size:3rem;font-weight:360;line-height:1;color:var(--forest);margin-bottom:18px}
+.follow__txt p{font-size:1.2rem;color:rgba(27,26,23,.72)}
+.follow__cards{display:grid;gap:16px}
+.follow__card{display:flex;align-items:center;gap:18px;border:1px solid var(--rule);padding:22px;background:rgba(255,255,255,.2)}
+.follow__plat{display:block;font-family:"JetBrains Mono",monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--moss)}
+.follow__handle{display:block;font-family:"Fraunces",serif;font-size:1.4rem;color:var(--forest)}
+.follow__go{margin-left:auto;font-size:1.4rem}
+@media (max-width:820px){.follow__inner{grid-template-columns:1fr}}
+
+.subscribe{padding:32px 0 96px}
+.subscribe__inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;background:var(--forest);color:var(--paper);padding:44px}
+.subscribe h3{color:var(--paper)}
+.subscribe h3 em{color:var(--ochre-2)}
+.subscribe p{color:rgba(239,233,221,.72)}
+#subform{display:flex;gap:10px;margin-top:12px}
+#subemail{flex:1;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:var(--paper);padding:14px 16px;font-family:inherit;font-size:1rem}
+#subemail::placeholder{color:rgba(239,233,221,.55)}
+#subform button{border:0;background:var(--ochre);color:var(--forest);font-family:"JetBrains Mono",monospace;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;padding:0 18px;cursor:pointer}
+.subscribe__msg{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.04em;color:var(--ochre-2);margin-top:10px;text-transform:uppercase}
+@media (max-width:820px){.subscribe__inner{grid-template-columns:1fr;padding:28px}#subform{flex-direction:column}#subform button{padding:14px}}
+
+.indev{margin-top:56px;padding:32px;border:1px solid var(--rule);background:rgba(255,255,255,.18)}
+.indev__tag{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre);display:block;margin-bottom:12px}
+.indev__title{font-family:"Fraunces",serif;font-size:2.8rem;font-weight:360;line-height:1;color:var(--forest);margin-bottom:16px}
+.socials-grid,.actions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.soc,.bigcard{border:1px solid var(--rule);background:rgba(255,255,255,.18);padding:28px;transition:all .2s ease}
+.soc:hover{transform:translateY(-3px);background:rgba(255,255,255,.32)}
+.soc__plat,.bigcard__num{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre);display:block;margin-bottom:14px}
+.soc__handle,.bigcard__title{font-family:"Fraunces",serif;font-size:2rem;font-weight:380;line-height:1;color:var(--forest);margin-bottom:12px}
+.soc p,.bigcard p{color:rgba(27,26,23,.72);margin-bottom:18px}
+.soc__go{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--forest)}
+@media (max-width:760px){.socials-grid,.actions-grid{grid-template-columns:1fr}}
+
+.trade-block{display:grid;grid-template-columns:1fr 1fr;gap:32px;background:var(--forest);color:var(--paper);padding:44px;align-items:center}
+.trade-block__txt h3{font-family:"Fraunces",serif;font-size:3rem;line-height:1;font-weight:360;margin-bottom:18px;color:var(--paper)}
+.trade-block__txt h3 em{color:var(--ochre-2)}
+.trade-block__txt p{color:rgba(239,233,221,.75);margin-bottom:18px;font-size:1.1rem}
+.trade-block__imgs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.trade-block__imgs img{width:100%;height:360px;object-fit:cover}
+@media (max-width:820px){.trade-block{grid-template-columns:1fr;padding:28px}.trade-block__imgs{grid-template-columns:1fr}.trade-block__imgs img{height:auto}}
