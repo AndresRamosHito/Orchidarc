@@ -7,129 +7,620 @@
 <meta name="description" content="An ongoing index of orchid species documented and monitored by Orchidarc in the field.">
 <meta property="og:title" content="Digital Herbarium — Orchidarc">
 <meta property="og:description" content="An ongoing index of orchid species documented and monitored by Orchidarc in the field.">
-<meta property="og:image" content="images/hero-cloud-forest.jpg">
+<meta property="og:image" content="/images/hero-cloud-forest.jpg">
 <meta name="theme-color" content="#0f2418">
-<link rel="icon" type="image/png" href="images/favicon.png">
-<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,0..100;1,9..144,300..700,0..100&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<style>
+:root {
+  --paper:#efe9dd;
+  --paper-2:#e6dfd0;
+  --ink:#1b1a17;
+  --forest:#0f2418;
+  --moss:#5c6b4a;
+  --ochre:#b8773b;
+  --rule:rgba(27,26,23,.18);
+  --soft:rgba(27,26,23,.08);
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Newsreader", Georgia, serif;
+  font-size:18px;
+  line-height:1.55;
+}
+a { color:inherit; text-decoration:none; }
+img { display:block; max-width:100%; }
+.wrap { max-width:1440px; margin:0 auto; padding:0 32px; }
+.ticker {
+  background:var(--forest);
+  color:var(--paper);
+  overflow:hidden;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.ticker div {
+  display:flex;
+  gap:48px;
+  white-space:nowrap;
+  padding:8px 0;
+  font:500 .7rem "JetBrains Mono", monospace;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  opacity:.9;
+}
+.nav {
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:rgba(239,233,221,.94);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--soft);
+}
+.nav-inner {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  min-height:76px;
+}
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:max-content;
+}
+.brand img {
+  width:40px;
+  height:40px;
+  object-fit:contain;
+  border-radius:50%;
+}
+.brand-title {
+  display:block;
+  font-family:"Fraunces", Georgia, serif;
+  font-size:1.35rem;
+  line-height:1;
+}
+.brand-sub {
+  display:block;
+  margin-top:3px;
+  font:500 .62rem "JetBrains Mono", monospace;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  opacity:.58;
+}
+.nav-links {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:22px;
+  flex-wrap:wrap;
+  font:500 .72rem "JetBrains Mono", monospace;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.nav-links a { padding:6px 0; }
+.nav-links a.active {
+  color:var(--ochre);
+  border-bottom:1px solid var(--ochre);
+}
+.cta {
+  background:var(--forest);
+  color:var(--paper);
+  border-radius:999px;
+  padding:10px 16px;
+  font:500 .72rem "JetBrains Mono", monospace;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  min-width:max-content;
+}
+header.hero { padding:96px 0 48px; }
+.eyebrow {
+  display:block;
+  color:var(--moss);
+  font:500 .72rem "JetBrains Mono", monospace;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:24px;
+}
+h1 {
+  max-width:18ch;
+  margin:0;
+  font-family:"Fraunces", Georgia, serif;
+  font-weight:340;
+  font-size:clamp(3rem,7vw,6.5rem);
+  line-height:.95;
+  letter-spacing:-.03em;
+}
+h1 em { color:var(--forest); }
+.lede {
+  max-width:64ch;
+  margin:32px 0 0;
+  color:rgba(27,26,23,.78);
+  font-size:1.3rem;
+  line-height:1.45;
+}
+section.grid-section {
+  border-top:1px solid var(--rule);
+  padding:72px 0 96px;
+}
+.grid {
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:24px;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+.card {
+  display:block !important;
+  background:rgba(255,255,255,.22);
+  border:1px solid var(--soft);
+  overflow:hidden;
+  min-height:320px;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+.card a {
+  display:block;
+  height:100%;
+}
+.thumb {
+  position:relative;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  background:linear-gradient(135deg, rgba(15,36,24,.18), rgba(184,119,59,.18));
+}
+.thumb img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .8s ease;
+}
+.thumb.missing::after {
+  content:"Image pending";
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:var(--moss);
+  font:500 .72rem "JetBrains Mono", monospace;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.card:hover img { transform:scale(1.05); }
+.meta {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:16px 18px 0;
+  color:var(--moss);
+  font:500 .62rem "JetBrains Mono", monospace;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.card h2 {
+  margin:12px 18px 2px;
+  color:var(--forest);
+  font-family:"Fraunces", Georgia, serif;
+  font-size:1.45rem;
+  font-weight:420;
+  line-height:1.05;
+}
+.card p {
+  margin:0;
+  padding:0 18px 20px;
+  color:rgba(27,26,23,.6);
+  font-size:.95rem;
+}
+.note {
+  margin:64px 0 0;
+  text-align:center;
+  color:rgba(27,26,23,.62);
+}
+footer {
+  background:var(--forest);
+  color:var(--paper);
+  padding:56px 0 28px;
+}
+.footer-grid {
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:40px;
+}
+footer h2 {
+  margin:0 0 12px;
+  color:#d4934a;
+  font-family:"Fraunces", Georgia, serif;
+  font-size:2.8rem;
+  font-weight:360;
+}
+footer h3 {
+  margin:0 0 14px;
+  color:#d4934a;
+  font:500 .72rem "JetBrains Mono", monospace;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+footer p, footer li { color:rgba(239,233,221,.72); }
+footer ul { list-style:none; margin:0; padding:0; }
+footer li { margin:0 0 9px; }
+.copy {
+  margin-top:42px;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,.14);
+  color:rgba(239,233,221,.45);
+  font:500 .68rem "JetBrains Mono", monospace;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+@media (max-width:1100px) {
+  .grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
+@media (max-width:820px) {
+  .nav-inner { align-items:flex-start; flex-direction:column; padding:16px 0; }
+  .nav-links { justify-content:flex-start; gap:16px; }
+  .cta { display:none; }
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .footer-grid { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:560px) {
+  .wrap { padding:0 20px; }
+  .grid { grid-template-columns:1fr; }
+  .footer-grid { grid-template-columns:1fr; }
+}
+</style>
 </head>
 <body>
 <div class="ticker" aria-hidden="true">
-  <div class="ticker__track">
+  <div>
     <span>UK Charity no. 1208062</span>
     <span>Field Season 2026 — Veracruz × Oaxaca</span>
     <span>IUCN SSC Orchid Specialist Group</span>
     <span>Reserve: 14 ha cloud forest, Ixhuacán de los Reyes</span>
-    <span>Now in development — Orchids of Mexico (feature documentary)</span>
-    <span>UK Charity no. 1208062</span>
-    <span>Field Season 2026 — Veracruz × Oaxaca</span>
-    <span>IUCN SSC Orchid Specialist Group</span>
-    <span>Reserve: 14 ha cloud forest, Ixhuacán de los Reyes</span>
-    <span>Now in development — Orchids of Mexico (feature documentary)</span>
+    <span>Orchids of Mexico — in development</span>
   </div>
 </div>
-<header class="nav">
-  <div class="wrap nav__inner">
-    <a href="index.html" class="brand">
-      <img class="brand__mark" src="images/logo-mark.png" alt="Orchidarc">
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="brand">
+      <img src="/images/logo-mark.png" alt="Orchidarc" onerror="this.style.display='none'">
       <span>
-        <span class="brand__text">Orchidarc</span>
-        <span class="brand__sub">Est. 2022 · Sheffield, UK</span>
+        <span class="brand-title">Orchidarc</span>
+        <span class="brand-sub">Est. 2022 · Sheffield, UK</span>
       </span>
     </a>
-    <nav class="nav__links" id="navlinks">
-      <a href="films.html" class="">Films</a>
-      <a href="herbarium.html" class="is-active">Species</a>
-      <a href="gallery.html" class="">Gallery</a>
-      <a href="research.html" class="">Research</a>
-      <a href="about.html" class="">About</a>
-      <a href="stories.html" class="">Stories</a>
-      <a href="store.html" class="">Store</a>
-    </nav>
-    <button class="nav__toggle" id="navtoggle" aria-label="Menu">Menu</button>
-    <a href="take-action.html" class="nav__cta">Take Action</a>
+    <div class="nav-links" aria-label="Primary navigation">
+      <a href="/films.html">Films</a>
+      <a href="/herbarium.html" class="active">Species</a>
+      <a href="/gallery.html">Gallery</a>
+      <a href="/research.html">Research</a>
+      <a href="/about.html">About</a>
+      <a href="/stories.html">Stories</a>
+      <a href="/store.html">Store</a>
+    </div>
+    <a href="/take-action.html" class="cta">Take Action</a>
   </div>
-</header>
-<section class="ph wrap">
-  <span class="ph__eyebrow">Digital Herbarium · OA</span>
-  <h1 class="ph__title">The <em>herbarium</em>.</h1>
-  <p class="ph__lede">An ongoing index of the orchid species we encounter, document and monitor in the field. Each plate links to the underlying notes, photographs and conservation status.</p>
-</section>
+</nav>
 
-<section class="section wrap reveal">
-  <div class="hb-grid">
-    <article class="hb"><a href="laelia-anceps.html"><div class="hb__img"><img src="images/anceps-flowers.JPG" alt="Laelia anceps" loading="lazy"></div><div class="hb__meta"><span>Cultural icon</span><span>Mexico widespread</span></div><h3 class="hb__name"><em>Laelia anceps</em></h3><p class="hb__author">Lindl.</p></a></article>
-    <article class="hb"><a href="laelia-halbingeriana.html"><div class="hb__img"><img src="images/l-halbingeriana.jpg" alt="Laelia halbingeriana" loading="lazy"></div><div class="hb__meta"><span>Narrow endemic</span><span>Eastern Sierra Madre</span></div><h3 class="hb__name"><em>Laelia halbingeriana</em></h3><p class="hb__author">Salazar &amp; Soto Arenas</p></a></article>
-    <article class="hb"><a href="laelia-furfuracea.html"><div class="hb__img"><img src="images/laelia-furfuracea.JPG" alt="Laelia furfuracea" loading="lazy"></div><div class="hb__meta"><span>Under protection</span><span>Endemic · Oaxaca</span></div><h3 class="hb__name"><em>Laelia furfuracea</em></h3><p class="hb__author">Lindl.</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/laelia-speciosa.jpg" alt="Laelia speciosa" loading="lazy"></div><div class="hb__meta"><span>Under protection</span><span>Endemic · Central MX</span></div><h3 class="hb__name"><em>Laelia speciosa</em></h3><p class="hb__author">(Kunth) Schltr.</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/laelia-albida-black.jpg" alt="Laelia albida" loading="lazy"></div><div class="hb__meta"><span>Cultural use</span><span>Mexico</span></div><h3 class="hb__name"><em>Laelia albida</em></h3><p class="hb__author">Bateman ex Lindl.</p></a></article>
-    <article class="hb"><a href="acineta-barkeri.html"><div class="hb__img"><img src="images/a-barkeri-flowers.jpg" alt="Acineta barkeri" loading="lazy"></div><div class="hb__meta"><span>Endangered</span><span>Endemic · Veracruz</span></div><h3 class="hb__name"><em>Acineta barkeri</em></h3><p class="hb__author">(Bateman) Lindl.</p></a></article>
-    <article class="hb"><a href="prosthechea-vitellina.html"><div class="hb__img"><img src="images/prosthechea-vitellina.jpg" alt="Prosthechea vitellina" loading="lazy"></div><div class="hb__meta"><span>Endangered</span><span>MX → Nicaragua</span></div><h3 class="hb__name"><em>Prosthechea vitellina</em></h3><p class="hb__author">(Lindl.) W.E.Higgins</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/prosthechea-cochleata.JPG" alt="Prosthechea cochleata" loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>MX → South America</span></div><h3 class="hb__name"><em>Prosthechea cochleata</em></h3><p class="hb__author">(L.) W.E.Higgins</p></a></article>
-    <article class="hb"><a href="cypripedium.html"><div class="hb__img"><img src="images/cypripedium.jpg" alt="Cypripedium spp." loading="lazy"></div><div class="hb__meta"><span>In assessment</span><span>Cofre de Perote</span></div><h3 class="hb__name"><em>Cypripedium spp.</em></h3><p class="hb__author">—</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/dinedema-mariae.jpg" alt="Dinedema mariae" loading="lazy"></div><div class="hb__meta"><span>Newly described</span><span>Endemic · Veracruz</span></div><h3 class="hb__name"><em>× Dinedema mariae</em></h3><p class="hb__author">Orchidarc, 2025</p></a></article>
-    <article class="hb"><a href="epidendrum-parkinsonianum.html"><div class="hb__img"><img src="images/epi-parkinsonianum.JPG" alt="Epidendrum parkinsonianum" loading="lazy"></div><div class="hb__meta"><span>Canopy specialist</span><span>MX → Panama</span></div><h3 class="hb__name"><em>Epidendrum parkinsonianum</em></h3><p class="hb__author">Hook.</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/mormodes-maculata.jpg" alt="Mormodes maculata" loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>Mexico cloud forest</span></div><h3 class="hb__name"><em>Mormodes maculata</em></h3><p class="hb__author">(Klotzsch) L.O.Williams</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/gongora-galeata.jpg" alt="Gongora galeata" loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>Endemic · Mexico</span></div><h3 class="hb__name"><em>Gongora galeata</em></h3><p class="hb__author">(Lindl.) Rchb.f.</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/rhynchostele-maculata.JPG" alt="Rhynchostele maculata" loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>MX &amp; Guatemala</span></div><h3 class="hb__name"><em>Rhynchostele maculata</em></h3><p class="hb__author">(La Llave &amp; Lex.) Soto Arenas &amp; Salazar</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/rhynchostele-membranacea.JPG" alt="Rhynchostele membranacea" loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>Mexico</span></div><h3 class="hb__name"><em>Rhynchostele membranacea</em></h3><p class="hb__author">(Lindl.) Soto Arenas &amp; Salazar</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/artorima.JPG" alt="Artorima erubescens" loading="lazy"></div><div class="hb__meta"><span>Endemic</span><span>Oaxaca highlands</span></div><h3 class="hb__name"><em>Artorima erubescens</em></h3><p class="hb__author">(Lindl.) Dressler &amp; Pollard</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/alamania.JPG" alt="Alamania punicea" loading="lazy"></div><div class="hb__meta"><span>Cliff specialist</span><span>Endemic · Oaxaca</span></div><h3 class="hb__name"><em>Alamania punicea</em></h3><p class="hb__author">Lex.</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/bletia-adenocarpa.JPG" alt="Bletia adenocarpa" loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>Mexico</span></div><h3 class="hb__name"><em>Bletia adenocarpa</em></h3><p class="hb__author">Rchb.f.</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/habenaria.jpg" alt="Habenaria spp." loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>Cloud forest terrestrial</span></div><h3 class="hb__name"><em>Habenaria spp.</em></h3><p class="hb__author">—</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/lepanthes-mini.jpg" alt="Lepanthes spp." loading="lazy"></div><div class="hb__meta"><span>Miniatures</span><span>Cloud forest</span></div><h3 class="hb__name"><em>Lepanthes spp.</em></h3><p class="hb__author">—</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/pabstiella.jpg" alt="Pabstiella biriricensis" loading="lazy"></div><div class="hb__meta"><span>Under study</span><span>Cloud forest</span></div><h3 class="hb__name"><em>Pabstiella biriricensis</em></h3><p class="hb__author">—</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/acianthera-macro.jpg" alt="Acianthera spp." loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>Cloud forest</span></div><h3 class="hb__name"><em>Acianthera spp.</em></h3><p class="hb__author">—</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/Pleurothallis_cultivado.jpg" alt="Pleurothallis spp." loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>Cloud forest</span></div><h3 class="hb__name"><em>Pleurothallis spp.</em></h3><p class="hb__author">—</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/Trichosalpinx_cultivado.jpg" alt="Trichosalpinx spp." loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>Cloud forest</span></div><h3 class="hb__name"><em>Trichosalpinx spp.</em></h3><p class="hb__author">—</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/Meriacylium_cultivado.jpg" alt="Meiracyllium spp." loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>Mexico &amp; Guatemala</span></div><h3 class="hb__name"><em>Meiracyllium spp.</em></h3><p class="hb__author">—</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/Coelia_macrostachya_insitu.jpg" alt="Coelia macrostachya" loading="lazy"></div><div class="hb__meta"><span>Under monitoring</span><span>Mexico</span></div><h3 class="hb__name"><em>Coelia macrostachya</em></h3><p class="hb__author">Lindl.</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/cranichis.JPG" alt="Cranichis spp." loading="lazy"></div><div class="hb__meta"><span>Terrestrial</span><span>Cloud forest</span></div><h3 class="hb__name"><em>Cranichis spp.</em></h3><p class="hb__author">—</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/funkiella.JPG" alt="Funkiella spp." loading="lazy"></div><div class="hb__meta"><span>Terrestrial</span><span>Mexico</span></div><h3 class="hb__name"><em>Funkiella spp.</em></h3><p class="hb__author">—</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/p-karwinskii.jpg" alt="Pterostemma karwinskii" loading="lazy"></div><div class="hb__meta"><span>Endemic</span><span>Mexico</span></div><h3 class="hb__name"><em>Pterostemma karwinskii</em></h3><p class="hb__author">Schltr.</p></a></article>
-    <article class="hb"><a href="#"><div class="hb__img"><img src="images/SinID.jpg" alt="Unknown species" loading="lazy"></div><div class="hb__meta"><span>Not yet identified</span><span>Veracruz cloud forest</span></div><h3 class="hb__name"><em>Unknown species</em></h3><p class="hb__author">Under study</p></a></article>
-  </div>
-  <p class="muted" style="margin-top:64px;text-align:center">30 entries and growing. More are added as field work continues. Want to contribute a record? <a href="mailto:andresr@orchidarc.org">Get in touch</a>.</p>
-</section>
-<footer class="foot">
+<header class="hero wrap">
+  <span class="eyebrow">Digital Herbarium · OA</span>
+  <h1>The <em>herbarium</em>.</h1>
+  <p class="lede">An ongoing index of the orchid species we encounter, document and monitor in the field. Each plate links to the underlying notes, photographs and conservation status.</p>
+</header>
+
+<main>
+  <section class="grid-section">
+    <div class="wrap">
+      <div class="grid">
+
+      <article class="card">
+        <a href="/laelia-anceps.html" aria-label="Laelia anceps">
+          <div class="thumb"><img src="/images/anceps-flowers.JPG" alt="Laelia anceps" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Cultural icon</span><span>Mexico widespread</span></div>
+          <h2><em>Laelia anceps</em></h2>
+          <p>Lindl.</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="/laelia-halbingeriana.html" aria-label="Laelia halbingeriana">
+          <div class="thumb"><img src="/images/l-halbingeriana.jpg" alt="Laelia halbingeriana" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Narrow endemic</span><span>Eastern Sierra Madre</span></div>
+          <h2><em>Laelia halbingeriana</em></h2>
+          <p>Salazar & Soto Arenas</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="/laelia-furfuracea.html" aria-label="Laelia furfuracea">
+          <div class="thumb"><img src="/images/laelia-furfuracea.JPG" alt="Laelia furfuracea" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under protection</span><span>Endemic · Oaxaca</span></div>
+          <h2><em>Laelia furfuracea</em></h2>
+          <p>Lindl.</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Laelia speciosa">
+          <div class="thumb"><img src="/images/laelia-speciosa.jpg" alt="Laelia speciosa" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under protection</span><span>Endemic · Central MX</span></div>
+          <h2><em>Laelia speciosa</em></h2>
+          <p>(Kunth) Schltr.</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Laelia albida">
+          <div class="thumb"><img src="/images/laelia-albida-black.jpg" alt="Laelia albida" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Cultural use</span><span>Mexico</span></div>
+          <h2><em>Laelia albida</em></h2>
+          <p>Bateman ex Lindl.</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="/acineta-barkeri.html" aria-label="Acineta barkeri">
+          <div class="thumb"><img src="/images/a-barkeri-flowers.jpg" alt="Acineta barkeri" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Endangered</span><span>Endemic · Veracruz</span></div>
+          <h2><em>Acineta barkeri</em></h2>
+          <p>(Bateman) Lindl.</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="/prosthechea-vitellina.html" aria-label="Prosthechea vitellina">
+          <div class="thumb"><img src="/images/prosthechea-vitellina.jpg" alt="Prosthechea vitellina" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Endangered</span><span>MX → Nicaragua</span></div>
+          <h2><em>Prosthechea vitellina</em></h2>
+          <p>(Lindl.) W.E.Higgins</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Prosthechea cochleata">
+          <div class="thumb"><img src="/images/prosthechea-cochleata.JPG" alt="Prosthechea cochleata" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>MX → South America</span></div>
+          <h2><em>Prosthechea cochleata</em></h2>
+          <p>(L.) W.E.Higgins</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="/cypripedium.html" aria-label="Cypripedium spp.">
+          <div class="thumb"><img src="/images/cypripedium.jpg" alt="Cypripedium spp." loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>In assessment</span><span>Cofre de Perote</span></div>
+          <h2><em>Cypripedium spp.</em></h2>
+          <p>—</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="× Dinedema mariae">
+          <div class="thumb"><img src="/images/dinedema-mariae.jpg" alt="× Dinedema mariae" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Newly described</span><span>Endemic · Veracruz</span></div>
+          <h2><em>× Dinedema mariae</em></h2>
+          <p>Orchidarc, 2025</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="/epidendrum-parkinsonianum.html" aria-label="Epidendrum parkinsonianum">
+          <div class="thumb"><img src="/images/epi-parkinsonianum.JPG" alt="Epidendrum parkinsonianum" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Canopy specialist</span><span>MX → Panama</span></div>
+          <h2><em>Epidendrum parkinsonianum</em></h2>
+          <p>Hook.</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Mormodes maculata">
+          <div class="thumb"><img src="/images/mormodes-maculata.jpg" alt="Mormodes maculata" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>Mexico cloud forest</span></div>
+          <h2><em>Mormodes maculata</em></h2>
+          <p>(Klotzsch) L.O.Williams</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Gongora galeata">
+          <div class="thumb"><img src="/images/gongora-galeata.jpg" alt="Gongora galeata" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>Endemic · Mexico</span></div>
+          <h2><em>Gongora galeata</em></h2>
+          <p>(Lindl.) Rchb.f.</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Rhynchostele maculata">
+          <div class="thumb"><img src="/images/rhynchostele-maculata.JPG" alt="Rhynchostele maculata" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>MX & Guatemala</span></div>
+          <h2><em>Rhynchostele maculata</em></h2>
+          <p>(La Llave & Lex.) Soto Arenas & Salazar</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Rhynchostele membranacea">
+          <div class="thumb"><img src="/images/rhynchostele-membranacea.JPG" alt="Rhynchostele membranacea" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>Mexico</span></div>
+          <h2><em>Rhynchostele membranacea</em></h2>
+          <p>(Lindl.) Soto Arenas & Salazar</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Artorima erubescens">
+          <div class="thumb"><img src="/images/artorima.JPG" alt="Artorima erubescens" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Endemic</span><span>Oaxaca highlands</span></div>
+          <h2><em>Artorima erubescens</em></h2>
+          <p>(Lindl.) Dressler & Pollard</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Alamania punicea">
+          <div class="thumb"><img src="/images/alamania.JPG" alt="Alamania punicea" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Cliff specialist</span><span>Endemic · Oaxaca</span></div>
+          <h2><em>Alamania punicea</em></h2>
+          <p>Lex.</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Bletia adenocarpa">
+          <div class="thumb"><img src="/images/bletia-adenocarpa.JPG" alt="Bletia adenocarpa" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>Mexico</span></div>
+          <h2><em>Bletia adenocarpa</em></h2>
+          <p>Rchb.f.</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Habenaria spp.">
+          <div class="thumb"><img src="/images/habenaria.jpg" alt="Habenaria spp." loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>Cloud forest terrestrial</span></div>
+          <h2><em>Habenaria spp.</em></h2>
+          <p>—</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Lepanthes spp.">
+          <div class="thumb"><img src="/images/lepanthes-mini.jpg" alt="Lepanthes spp." loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Miniatures</span><span>Cloud forest</span></div>
+          <h2><em>Lepanthes spp.</em></h2>
+          <p>—</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Pabstiella biriricensis">
+          <div class="thumb"><img src="/images/pabstiella.jpg" alt="Pabstiella biriricensis" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under study</span><span>Cloud forest</span></div>
+          <h2><em>Pabstiella biriricensis</em></h2>
+          <p>—</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Acianthera spp.">
+          <div class="thumb"><img src="/images/acianthera-macro.jpg" alt="Acianthera spp." loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>Cloud forest</span></div>
+          <h2><em>Acianthera spp.</em></h2>
+          <p>—</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Pleurothallis spp.">
+          <div class="thumb"><img src="/images/Pleurothallis_cultivado.jpg" alt="Pleurothallis spp." loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>Cloud forest</span></div>
+          <h2><em>Pleurothallis spp.</em></h2>
+          <p>—</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Trichosalpinx spp.">
+          <div class="thumb"><img src="/images/Trichosalpinx_cultivado.jpg" alt="Trichosalpinx spp." loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>Cloud forest</span></div>
+          <h2><em>Trichosalpinx spp.</em></h2>
+          <p>—</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Meiracyllium spp.">
+          <div class="thumb"><img src="/images/Meriacylium_cultivado.jpg" alt="Meiracyllium spp." loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>Mexico & Guatemala</span></div>
+          <h2><em>Meiracyllium spp.</em></h2>
+          <p>—</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Coelia macrostachya">
+          <div class="thumb"><img src="/images/Coelia_macrostachya_insitu.jpg" alt="Coelia macrostachya" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Under monitoring</span><span>Mexico</span></div>
+          <h2><em>Coelia macrostachya</em></h2>
+          <p>Lindl.</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Cranichis spp.">
+          <div class="thumb"><img src="/images/cranichis.JPG" alt="Cranichis spp." loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Terrestrial</span><span>Cloud forest</span></div>
+          <h2><em>Cranichis spp.</em></h2>
+          <p>—</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Funkiella spp.">
+          <div class="thumb"><img src="/images/funkiella.JPG" alt="Funkiella spp." loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Terrestrial</span><span>Mexico</span></div>
+          <h2><em>Funkiella spp.</em></h2>
+          <p>—</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Pterostemma karwinskii">
+          <div class="thumb"><img src="/images/p-karwinskii.jpg" alt="Pterostemma karwinskii" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Endemic</span><span>Mexico</span></div>
+          <h2><em>Pterostemma karwinskii</em></h2>
+          <p>Schltr.</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" aria-label="Unknown species">
+          <div class="thumb"><img src="/images/SinID.jpg" alt="Unknown species" loading="lazy" onerror="this.closest('.thumb').classList.add('missing');this.remove();"></div>
+          <div class="meta"><span>Not yet identified</span><span>Veracruz cloud forest</span></div>
+          <h2><em>Unknown species</em></h2>
+          <p>Under study</p>
+        </a>
+      </article>
+      </div>
+      <p class="note">30 entries and growing. More are added as field work continues. Want to contribute a record? <a href="mailto:andresr@orchidarc.org">Get in touch</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
   <div class="wrap">
-    <div class="foot__top">
-      <div class="foot__brand">
+    <div class="footer-grid">
+      <div>
         <h2>Orchidarc.</h2>
         <p>UK-registered conservation NGO working to protect the wild orchids of Mexico through research, action and cinema.</p>
-        <div class="foot__social">
-          <a href="https://www.instagram.com/orchidarcngo/" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
-          <a href="https://www.youtube.com/channel/UCTxs17CLsXiwm5GgsLcLMYQ" target="_blank" rel="noopener" aria-label="YouTube">YouTube</a>
-          <a href="https://www.researchgate.net/profile/Andres-Ramos-Orchidarc" target="_blank" rel="noopener" aria-label="ResearchGate">ResearchGate</a>
-          <a href="mailto:andresr@orchidarc.org" aria-label="Email">Email</a>
-        </div>
       </div>
-      <div class="foot__col">
-        <h5>Work</h5>
+      <div>
+        <h3>Work</h3>
         <ul>
-          <li><a href="films.html">Films</a></li>
-          <li><a href="herbarium.html">Herbarium</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
-          <li><a href="research.html">Research</a></li>
-          <li><a href="cypripedium.html">Cypripedium</a></li>
-          <li><a href="stories.html">Stories</a></li>
+          <li><a href="/films.html">Films</a></li>
+          <li><a href="/herbarium.html">Herbarium</a></li>
+          <li><a href="/gallery.html">Gallery</a></li>
+          <li><a href="/research.html">Research</a></li>
+          <li><a href="/cypripedium.html">Cypripedium</a></li>
         </ul>
       </div>
-      <div class="foot__col">
-        <h5>Get involved</h5>
+      <div>
+        <h3>Get involved</h3>
         <ul>
-          <li><a href="take-action.html">Donate</a></li>
-          <li><a href="mexico-tours.html">Mexico tours</a></li>
-          <li><a href="store.html">Store</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="socials.html">Socials</a></li>
+          <li><a href="/take-action.html">Donate</a></li>
+          <li><a href="/mexico-tours.html">Mexico tours</a></li>
+          <li><a href="/store.html">Store</a></li>
+          <li><a href="/socials.html">Socials</a></li>
         </ul>
       </div>
-      <div class="foot__col">
-        <h5>Contact</h5>
+      <div>
+        <h3>Contact</h3>
         <ul>
           <li><a href="mailto:andresr@orchidarc.org">andresr@orchidarc.org</a></li>
           <li><a href="tel:+447771483822">+44 (0)7771 483822</a></li>
@@ -138,12 +629,8 @@
         </ul>
       </div>
     </div>
-    <div class="foot__bottom">
-      <span>© Orchidarc 2022–2026 — All rights reserved</span>
-      <span>Designed in the cloud forest · Built with care</span>
-    </div>
+    <div class="copy">© Orchidarc 2022–2026 — All rights reserved</div>
   </div>
 </footer>
-<script src="app.js"></script>
 </body>
 </html>
